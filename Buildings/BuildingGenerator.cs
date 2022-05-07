@@ -6,11 +6,11 @@ using System.Security.Cryptography;
 using System.Text;
 
 public class BuildingGenerator : MonoBehaviour {
-  public Tilemap roadtm;
   public Tilemap buildingtm;
   public Tilemap doorstm;
   public Tilemap[] roofstm;
   public Tilemap signstm;
+  public Tilemap roadtm;
 
 
   /* Space before previous 0-8 tiles
@@ -48,6 +48,7 @@ public class BuildingGenerator : MonoBehaviour {
   public List<DoorType> Doors;
   public List<WindowType> Windows;
   public List<TileBase> Roof;
+  public List<TileBase> Roads;
 }
 
 [CustomEditor(typeof(BuildingGenerator))]
@@ -82,6 +83,24 @@ public class BuildingGeneratorEditor : Editor {
         CalculateValuesFromHash(b, b.RandomHash + (i - 1));
         pos -= b.SpaceBefore + b.Width;
       }
+      // Roads
+      CalculateValuesFromHash(b, b.RandomHash + 0);
+      pos = b.SpaceBefore - 1;
+      b.roadtm.SetTile(new Vector3Int(pos - 1, 1), b.Roads[0]);
+      b.roadtm.SetTile(new Vector3Int(pos - 1, 0), b.Roads[10]);
+      for (int i = 0; i < num; i++) {
+        CalculateValuesFromHash(b, b.RandomHash + i);
+        int width = b.SpaceBefore + b.Width;
+        for (int x = 0; x < width; x++) {
+          b.roadtm.SetTile(new Vector3Int(pos + x, 1), b.Roads[1]);
+          b.roadtm.SetTile(new Vector3Int(pos + x, 0), b.Roads[10]);
+        }
+        pos += width;
+      }
+      b.roadtm.SetTile(new Vector3Int(pos + 0, 1), b.Roads[1]);
+      b.roadtm.SetTile(new Vector3Int(pos + 1, 1), b.Roads[3]);
+      b.roadtm.SetTile(new Vector3Int(pos + 0, 0), b.Roads[10]);
+      b.roadtm.SetTile(new Vector3Int(pos + 1, 0), b.Roads[10]);
     }
   }
 
@@ -153,11 +172,12 @@ public class BuildingGeneratorEditor : Editor {
         b.doorstm.SetTile(cell, null);
         b.roofstm[0].SetTile(cell, null);
         b.roofstm[1].SetTile(cell, null);
+        b.roadtm.SetTile(cell, null);
       }
     }
   }
 
-  int Generate(BuildingGenerator b, int rm, int xoffset = 0) {
+  void Generate(BuildingGenerator b, int rm, int xoffset = 0) {
     Vector3Int bl = new(b.SpaceBefore + xoffset, 3);
     BuildMat mat = b.Mats[b.MaterialType % b.Mats.Count];
     Color32 col = b.WallsColor;
@@ -321,9 +341,14 @@ public class BuildingGeneratorEditor : Editor {
         else SetTile(bl + new Vector3Int(x - y, b.Height + y), b.roofstm[rm], colroof, b.Roof[5]);
       }
     }
+  
+    // Roads
+    
 
-    return b.SpaceBefore + b.Width;
+
+    
   }
+
 
 
   private void SetTile(Vector3Int pos, Tilemap tm, Color color, TileBase tile) {
