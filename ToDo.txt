@@ -1,0 +1,18 @@
+﻿!Add colors for buildings
+!Add random string for generation
+!Draw the side of the building also if before the space
+!Build walls and roof only if the cells are empty
+!Use a second roof tilemap to avoid clashing of tiles
+!Add multiple building generation
+!Add road generation
+
+
+
+Add specific buildings (parks, food trucks, jail, dumps)
+Add second layer of buildings in beackground?
+
+
+Implement better Inspector to define buildings (we will not really use it, so low priority)
+
+
+
