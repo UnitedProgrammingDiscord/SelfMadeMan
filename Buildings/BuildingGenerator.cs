@@ -99,13 +99,13 @@ public class BuildingGeneratorEditor : Editor {
 
   void GenerateRoad(Tilemap tm, int min, int max, List<TileBase> roads) {
     // Clean everything
-    for (int y = 0; y < 10; y++)
+    for (int y = 0; y < 7; y++)
       for (int x = min - 16; x < max + 10; x++)
         tm.SetTile(new Vector3Int(x, y), roads[10]);
 
     tm.SetTile(new Vector3Int(min - 1, 0), roads[10]);
     tm.SetTile(new Vector3Int(min - 1, 1), roads[0]);
-    for (int y = 2; y < 10; y++) {
+    for (int y = 2; y < 7; y++) {
       tm.SetTile(new Vector3Int(min - y, y), roads[4]);
       tm.SetTile(new Vector3Int(min - y + 1, y), roads[5]);
       for (int x = 2; x < y; x++) 
@@ -114,13 +114,13 @@ public class BuildingGeneratorEditor : Editor {
 
     for (int x = min; x < max; x++) {
         tm.SetTile(new Vector3Int(x, 1), roads[1]);
-      for (int y = 2; y < 10; y++)
+      for (int y = 2; y < 7; y++)
         tm.SetTile(new Vector3Int(x, y), roads[8]);
       tm.SetTile(new Vector3Int(x, 0), roads[10]);
     }
 
 
-    for (int y = 2; y < 10; y++) {
+    for (int y = 2; y < 7; y++) {
       tm.SetTile(new Vector3Int(max - y + 1, y), roads[7]);
       for (int x = 2; x < 10; x++)
         tm.SetTile(new Vector3Int(max - y + x, y), roads[10]);
@@ -168,16 +168,16 @@ public class BuildingGeneratorEditor : Editor {
     key ^= (key >> 8);
 
 
-    b.SpaceBefore = (byte)(key & 3);
-    b.Width = (byte)((key >> 2) & 7) + 4;
-    b.Height = (byte)((key >> 5) & 3) + 3;
-    b.DoorPosition = (byte)((key >> 7) & 7);
-    b.DoorType = (byte)((key >> 10) & 7);
-    b.WindowsType1 = (byte)((key >> 13) & 7);
-    b.WindowsNum1 = (byte)((key >> 16) & 3);
-    b.WindowsType2 = (byte)((key >> 18) & 7);
-    b.WindowsNum2 = (byte)((key >> 21) & 7);
-    b.MaterialType = (byte)((key >> 24) & 7);
+    b.SpaceBefore = (byte)(key & 7);
+    b.Width = (byte)((key >> 3) & 7) + 4;
+    b.Height = (byte)((key >> 6) & 3) + 3;
+    b.DoorPosition = (byte)((key >> 8) & 7);
+    b.DoorType = (byte)((key >> 11) & 7);
+    b.WindowsType1 = (byte)((key >> 14) & 7);
+    b.WindowsNum1 = (byte)((key >> 17) & 3);
+    b.WindowsType2 = (byte)((key >> 19) & 7);
+    b.WindowsNum2 = (byte)((key >> 22) & 7);
+    b.MaterialType = (byte)((key >> 25) & 7);
 
     float h = (byte)((key >> 28) & 255) / 255f;
     float s = (byte)((key >> 36) & 15) / 45f + .025f;
@@ -197,7 +197,7 @@ public class BuildingGeneratorEditor : Editor {
     for (int i = 0; i < b.roofstmEv.Length; i++) rtmsEv[i] = b.roofstmEv[i];
     for (int i = 0; i < b.roofstmOd.Length; i++) rtmsOd[i] = b.roofstmOd[i];
     for (int y = 0; y < 16; y++) {
-      for (int x = -8; x < 128; x++) {
+      for (int x = -8; x < 200; x++) {
         Vector3Int cell = new(x, y, 0);
         b.buildingtm.SetTile(cell, null);
         b.doorstm.SetTile(cell, null);
@@ -219,9 +219,11 @@ public class BuildingGeneratorEditor : Editor {
     colroof.a = 255;
     int depth = b.SpaceBefore;
     if (depth < 2) depth = 2;
+    if (depth > b.Height) depth = b.Height;
+    if (depth > 5) depth = 5;
 
     // Side walls
-    for (int x = 0; x < Mathf.Min(depth, b.Height); x++) {
+    for (int x = 0; x < depth; x++) {
       Vector3Int pos = new Vector3Int(-x - 1, x) + bl;
       SetTile(pos, b.buildingtm, col, mat.tiles[6]);
       for (int y = 1; y < b.Height; y++) {
