@@ -5,7 +5,7 @@ using UnityEngine.Rendering.Universal;
 public class Player : MonoBehaviour {
   public Animator anim;
   public Transform cam;
-
+  public BuildingGenerator building;
   public SpriteRenderer SkyDay, SkyNight;
   public Light2D GlobalLight;
   public TextMeshProUGUI TimeText;
@@ -14,9 +14,12 @@ public class Player : MonoBehaviour {
 
   Vector3 movement;
   public float Speed = 3;
-  Vector3 MoveRight = new Vector3(-1, 1, 1);
+  Vector3 MoveRight = new(-1, 1, 1);
   Vector3 MoveLeft = Vector3.one;
 
+  private void Start() {
+    building.GenerateFullRoad();
+  }
 
   void Update() {
     float mx = Input.GetAxis("Horizontal");

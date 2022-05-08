@@ -8,6 +8,7 @@
 !Add road generation
 !Create main character and walk animation
 !Move on the sides (up/down) respecting colliders
+!Add skybox and time
 
 
 
@@ -23,7 +24,6 @@ Create anim: enter (vertical)
 Create anim: exit (vertical)
 
 Add bars: health, food, drink, items, coins
-Add skybox-ish
 
 
 ********** Bugs *******************
