@@ -86,24 +86,50 @@ public class BuildingGeneratorEditor : Editor {
       }
       // Roads
       CalculateValuesFromHash(b, b.RandomHash + 0);
-      pos = b.SpaceBefore - 1;
-      b.roadtm.SetTile(new Vector3Int(pos - 1, 1), b.Roads[0]);
-      b.roadtm.SetTile(new Vector3Int(pos - 1, 0), b.Roads[10]);
+
+      int min = b.SpaceBefore - 2;
+      int max = min + 3;
       for (int i = 0; i < num; i++) {
         CalculateValuesFromHash(b, b.RandomHash + i);
-        int width = b.SpaceBefore + b.Width;
-        for (int x = 0; x < width; x++) {
-          b.roadtm.SetTile(new Vector3Int(pos + x, 1), b.Roads[1]);
-          b.roadtm.SetTile(new Vector3Int(pos + x, 0), b.Roads[10]);
-        }
-        pos += width;
+        max += b.SpaceBefore + b.Width;
       }
-      b.roadtm.SetTile(new Vector3Int(pos + 0, 1), b.Roads[1]);
-      b.roadtm.SetTile(new Vector3Int(pos + 1, 1), b.Roads[3]);
-      b.roadtm.SetTile(new Vector3Int(pos + 0, 0), b.Roads[10]);
-      b.roadtm.SetTile(new Vector3Int(pos + 1, 0), b.Roads[10]);
+      GenerateRoad(b.roadtm, min, max, b.Roads);
     }
   }
+
+  void GenerateRoad(Tilemap tm, int min, int max, List<TileBase> roads) {
+    // Clean everything
+    for (int y = 0; y < 10; y++)
+      for (int x = min - 16; x < max + 10; x++)
+        tm.SetTile(new Vector3Int(x, y), roads[10]);
+
+    tm.SetTile(new Vector3Int(min - 1, 0), roads[10]);
+    tm.SetTile(new Vector3Int(min - 1, 1), roads[0]);
+    for (int y = 2; y < 10; y++) {
+      tm.SetTile(new Vector3Int(min - y, y), roads[4]);
+      tm.SetTile(new Vector3Int(min - y + 1, y), roads[5]);
+      for (int x = 2; x < y; x++) 
+        tm.SetTile(new Vector3Int(min - y + x, y), roads[8]);
+    }
+
+    for (int x = min; x < max; x++) {
+        tm.SetTile(new Vector3Int(x, 1), roads[1]);
+      for (int y = 2; y < 10; y++)
+        tm.SetTile(new Vector3Int(x, y), roads[8]);
+      tm.SetTile(new Vector3Int(x, 0), roads[10]);
+    }
+
+
+    for (int y = 2; y < 10; y++) {
+      tm.SetTile(new Vector3Int(max - y + 1, y), roads[7]);
+      for (int x = 2; x < 10; x++)
+        tm.SetTile(new Vector3Int(max - y + x, y), roads[10]);
+    }
+    tm.SetTile(new Vector3Int(max, 1), roads[3]);
+    tm.SetTile(new Vector3Int(max, 0), roads[10]);
+  }
+
+
 
   Tilemap btm;
   Tilemap[] rtmsEv;
