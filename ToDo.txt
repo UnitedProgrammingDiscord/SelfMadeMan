@@ -6,17 +6,26 @@
 !Add multiple building generation
 !Correctly handled the overlapping roofs
 !Add road generation
+!Create main character and walk animation
+!Move on the sides (up/down) respecting colliders
 
 
 
 Add specific buildings (parks, food trucks, jail, dumps)
 Add specific items (trees, trashcans, bins)
-Add second layer of buildings in beackground?
+Add second layer of buildings in background?
 
 
-Create main character and animations
+Create anim: run
+Create anim: pickup
+Create anim: work
+Create anim: enter (vertical)
+Create anim: exit (vertical)
 
+Add bars: health, food, drink, items, coins
+Add skybox-ish
 
 
 ********** Bugs *******************
 
+-2.7 -1.1

@@ -13,20 +13,29 @@ public class Player : MonoBehaviour {
 
   void Update() {
     float mx = Input.GetAxis("Horizontal");
-    if (mx == 0) movement *= (1 - 15 * Time.deltaTime);
+    if (mx == 0) movement.x *= (1 - 15 * Time.deltaTime);
     else {
       movement.x += mx * Time.deltaTime;
       movement.x = Mathf.Clamp(movement.x, -Speed, Speed);
     }
+    float my = Input.GetAxis("Vertical");
+    if (my == 0) movement.y *= (1 - 25 * Time.deltaTime);
+    else {
+      movement.y += my * Time.deltaTime * .5f;
+      movement.y = Mathf.Clamp(movement.y, -Speed * .1f, Speed * .1f);
+    }
 
-    transform.position += Speed * Time.deltaTime * movement;
-    if (Mathf.Abs(movement.x) < .1f) {
+    Vector3 pos = transform.position + Speed * Time.deltaTime * movement;
+    pos.y = Mathf.Clamp(pos.y, -2.7f, -1.1f);
+    transform.position = pos;
+
+    if (Mathf.Abs(movement.x) < .1f && Mathf.Abs(movement.y) < .025f) {
       anim.SetInteger("walk", 0);
       anim.speed = 1;
     }
     else {
       anim.SetInteger("walk", 1);
-      anim.speed = Mathf.Clamp(Mathf.Abs(movement.x), 0.5f, 5);
+      anim.speed = Mathf.Clamp(movement.sqrMagnitude, 0.5f, 2.5f);
       if (movement.x > 0) transform.localScale = MoveRight;
       else transform.localScale = MoveLeft;
     }
