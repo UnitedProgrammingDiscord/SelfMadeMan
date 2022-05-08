@@ -8,7 +8,8 @@ using System.Text;
 public class BuildingGenerator : MonoBehaviour {
   public Tilemap buildingtm;
   public Tilemap doorstm;
-  public Tilemap[] roofstm;
+  public Tilemap[] roofstmEv;
+  public Tilemap[] roofstmOd;
   public Tilemap signstm;
   public Tilemap roadtm;
 
@@ -104,7 +105,9 @@ public class BuildingGeneratorEditor : Editor {
     }
   }
 
-  Tilemap btm, rtm1, rtm2;
+  Tilemap btm;
+  Tilemap[] rtmsEv;
+  Tilemap[] rtmsOd;
 
   void CalculateValuesFromHash(BuildingGenerator b, string hash) {
     ulong key = 0;
@@ -163,21 +166,25 @@ public class BuildingGeneratorEditor : Editor {
 
   void Clean(BuildingGenerator b) {
     btm = b.buildingtm;
-    rtm1 = b.roofstm[0];
-    rtm2 = b.roofstm[1];
+    rtmsEv = new Tilemap[b.roofstmEv.Length];
+    rtmsOd = new Tilemap[b.roofstmOd.Length];
+    for (int i = 0; i < b.roofstmEv.Length; i++) rtmsEv[i] = b.roofstmEv[i];
+    for (int i = 0; i < b.roofstmOd.Length; i++) rtmsOd[i] = b.roofstmOd[i];
     for (int y = 0; y < 16; y++) {
       for (int x = -8; x < 128; x++) {
         Vector3Int cell = new(x, y, 0);
         b.buildingtm.SetTile(cell, null);
         b.doorstm.SetTile(cell, null);
-        b.roofstm[0].SetTile(cell, null);
-        b.roofstm[1].SetTile(cell, null);
+        for (int z = 0; z < b.roofstmEv.Length; z++) {
+          b.roofstmEv[z].SetTile(cell, null);
+          b.roofstmOd[z].SetTile(cell, null);
+        }
         b.roadtm.SetTile(cell, null);
       }
     }
   }
 
-  void Generate(BuildingGenerator b, int rm, int xoffset = 0) {
+  void Generate(BuildingGenerator b, int rindex, int xoffset = 0) {
     Vector3Int bl = new(b.SpaceBefore + xoffset, 3);
     BuildMat mat = b.Mats[b.MaterialType % b.Mats.Count];
     Color32 col = b.WallsColor;
@@ -332,29 +339,28 @@ public class BuildingGeneratorEditor : Editor {
     }
 
     // Roof
+    Tilemap[] rms = rindex == 0 ? b.roofstmEv : b.roofstmOd;
+    int rm = b.Height - 3;
+    if (rm < 0) rm = 0;
+    if (rm >= rms.Length) rm = rms.Length - 1;
+    Tilemap rtm = rms[rm];
+
     for (int x = -1; x < b.Width; x++) {
       for (int y = 0; y < depth; y++) {
-        if (x == -1) SetTile(bl + new Vector3Int(x - y, b.Height + y), b.roofstm[rm], colroof, y == depth - 1 ? b.Roof[1] : b.Roof[0]);
-        else if (x == b.Width - 1) SetTile(bl + new Vector3Int(x - y, b.Height + y), b.roofstm[rm], colroof, y == 0 ? b.Roof[3] : b.Roof[2]);
-        else if (y == 0) SetTile(bl + new Vector3Int(x - y, b.Height + y), b.roofstm[rm], colroof, b.Roof[4]);
-        else if (y == depth - 1) SetTile(bl + new Vector3Int(x - y, b.Height + y), b.roofstm[rm], colroof, b.Roof[6]);
-        else SetTile(bl + new Vector3Int(x - y, b.Height + y), b.roofstm[rm], colroof, b.Roof[5]);
+        if (x == -1) SetTile(bl + new Vector3Int(x - y, b.Height + y), rtm, colroof, y == depth - 1 ? b.Roof[1] : b.Roof[0]);
+        else if (x == b.Width - 1) SetTile(bl + new Vector3Int(x - y, b.Height + y), rtm, colroof, y == 0 ? b.Roof[3] : b.Roof[2]);
+        else if (y == 0) SetTile(bl + new Vector3Int(x - y, b.Height + y), rtm, colroof, b.Roof[4]);
+        else if (y == depth - 1) SetTile(bl + new Vector3Int(x - y, b.Height + y), rtm, colroof, b.Roof[6]);
+        else SetTile(bl + new Vector3Int(x - y, b.Height + y), rtm, colroof, b.Roof[5]);
       }
     }
-  
-    // Roads
-    
-
-
-    
   }
-
 
 
   private void SetTile(Vector3Int pos, Tilemap tm, Color color, TileBase tile) {
     if (tm == btm) {
-      rtm1.SetTile(pos, null);
-      rtm2.SetTile(pos, null);
+      foreach(var rtm in rtmsEv) rtm.SetTile(pos, null);
+      foreach(var rtm in rtmsOd) rtm.SetTile(pos, null);
     }
     tm.SetTile(pos, tile);
     tm.SetTileFlags(pos, TileFlags.None);

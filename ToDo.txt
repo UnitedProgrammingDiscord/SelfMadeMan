@@ -4,7 +4,7 @@
 !Build walls and roof only if the cells are empty
 !Use a second roof tilemap to avoid clashing of tiles
 !Add multiple building generation
-
+!Correctly handled the overlapping roofs
 
 
 
@@ -19,4 +19,6 @@ Add second layer of buildings in beackground?
 Implement better Inspector to define buildings (we will not really use it, so low priority)
 
 
+
+********** Bugs *******************
 
