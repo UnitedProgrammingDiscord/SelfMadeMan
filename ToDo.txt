@@ -10,10 +10,11 @@
 
 
 Add specific buildings (parks, food trucks, jail, dumps)
+Add specific items (trees, trashcans, bins)
 Add second layer of buildings in beackground?
 
 
-Implement better Inspector to define buildings (we will not really use it, so low priority)
+Create main character and animations
 
 
 
