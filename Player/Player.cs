@@ -11,6 +11,7 @@ public class Player : MonoBehaviour {
   public TextMeshProUGUI TimeText;
   public static float DayTime = 9;
   [Range(0,24)] public float dayTime = 9;
+  float TimeSpeed = 1 / 12f;
 
   Vector3 movement;
   public float Speed = 3;
@@ -67,7 +68,7 @@ public class Player : MonoBehaviour {
 
   float timeUpdateDelay = 0;
   void HandleTimeOfDay() {
-    dayTime += Time.deltaTime * 0.5f;
+    dayTime += Time.deltaTime * TimeSpeed;
     if (dayTime >= 24) dayTime -= 24f;
     Color32 c = Color.white;
 
@@ -89,11 +90,19 @@ public class Player : MonoBehaviour {
     else GlobalLight.intensity = .2f;
 
     timeUpdateDelay += Time.deltaTime;
-    if (timeUpdateDelay > 2) {
+    if (timeUpdateDelay > 1) {
       timeUpdateDelay = 0;
       TimeText.text = (int)dayTime + ":" + ((dayTime - (int)dayTime) * 60).ToString("00");
     }
 
     DayTime = dayTime;
+  }
+
+  public void SetTimeSpeed(int val) {
+    if (val == 0) TimeSpeed = 1/12f;  // 5 mins each second -> 12 second per 1 hour
+    if (val == 1) TimeSpeed = 1/6f;   // 10 mins each second -> 6 seconds per 1 hour
+    if (val == 2) TimeSpeed = .5f;    // 30 mins each second -> 2 seconds per 1 hour
+    if (val == 3) TimeSpeed = 1f;     // 1 hour per second
+    if (val == 4) TimeSpeed = 2f;     // 2 hours per second
   }
 }
