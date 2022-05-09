@@ -13,10 +13,11 @@
 
 
 
-Add specific buildings (parks, food trucks, jail, dumps)
+Add specific buildings
 Add specific items (trees, trashcans, bins)
-Add second layer of buildings in background?
-
+Add second layer of buildings in background? Or trees?
+Define roads and crossroads
+Define minimap
 
 Create anim: run
 Create anim: pickup
@@ -26,6 +27,9 @@ Create anim: exit (vertical)
 
 Add bars: health, food, drink, items, coins
 
+Add trees in the generation of the road
+
+Set limits to roads (min and max X position)
 
 
 ********** Bugs *******************

@@ -1,3 +1,4 @@
+using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
@@ -8,6 +9,16 @@ public class Player : MonoBehaviour {
   public BuildingGenerator building;
   public SpriteRenderer SkyDay, SkyNight;
   public Light2D GlobalLight;
+  public static Transform mt;
+
+  internal static Transform GetTransform() {
+    return mt;
+  }
+
+  private void Awake() {
+    mt = this.transform;
+  }
+
   public TextMeshProUGUI TimeText;
   public static float DayTime = 9;
   [Range(0,24)] public float dayTime = 9;
