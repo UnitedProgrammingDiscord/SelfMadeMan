@@ -25,17 +25,22 @@ public class Inventory : MonoBehaviour
     // FIXME in case we cannot keep the items do something
   }
 
+  public bool CannotFit(Item item) {
+    return (count >= GetMaxNum());
+  }
+
+
   // Returns true in case the item cannot be picked (no more available space)
-  public bool PutItem(Item item) {
+  public void AddItem(Item item) {
     if (item.IsMoney()) {
       credits += item.GetCreditsValue();
       Credits.text = $"{Credits.text[0]}{(credits/100f):F2}";
-      return false;
+      return;
     }
 
     int maxNum = GetMaxNum();
     int maxWeight = GetMaxWeight();
-    if (count >= maxNum) return true;
+    if (count >= maxNum) return;
 
     if (items.ContainsKey(item.itemType)) items[item.itemType]++;
     else items[item.itemType] = 1;
@@ -47,7 +52,6 @@ public class Inventory : MonoBehaviour
     Nums.text = $"{count}<size=18>/{maxWeight} Kg</size>";
 
     InvImage.color = (weight > maxWeight * 100) ? Color.red : Color.white;
-    return false;
   }
 
   private int GetMaxWeight() {

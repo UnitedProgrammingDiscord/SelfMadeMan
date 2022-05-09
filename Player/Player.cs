@@ -40,19 +40,19 @@ public class Player : MonoBehaviour {
 
       if (Input.GetKeyDown(KeyCode.LeftControl)) {
         // Do we have any pickable obejct under us?
-        Collider2D coll = Physics2D.OverlapCircle(transform.position, 2);
+        Collider2D coll = Physics2D.OverlapCircle(transform.position - Vector3.up, .5f);
         if (coll != null && coll.gameObject != null && coll.TryGetComponent(out Item item)) {
           // Can we pick the object (space in inventory)?
           movement = Vector3.zero;
           anim.SetInteger("walk", 0);
-          if (inventory.PutItem(item)) {
+          if (inventory.CannotFit(item)) {
             // Do some sound or show a message
             return;
           }
           anim.Play("Pick");
           pickingUp = true;
-          inventory.PutItem(item);
-          Destroy(item.gameObject);
+          inventory.AddItem(item);
+          Destroy(item.gameObject, .5f);
         }
       }
     }

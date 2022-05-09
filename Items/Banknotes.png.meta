@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 85f4042835f90f242bdf04cc0ba60c67
+guid: 2cddfbc69a3d75641800263a34b77610
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -104,13 +104,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Coin_0
+      name: Banknotes_0
       rect:
         serializedVersion: 2
-        x: 11
-        y: 171
-        width: 96
-        height: 42
+        x: 0
+        y: 128
+        width: 128
+        height: 128
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -118,20 +118,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 5f9fca5a6a09d714f866897d16ce0068
-      internalID: -924121227
+      spriteID: b023f375f572de242a8730f58726aa3a
+      internalID: -1456560526
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Coin_1
+      name: Banknotes_1
       rect:
         serializedVersion: 2
-        x: 139
-        y: 171
-        width: 96
-        height: 42
+        x: 128
+        y: 128
+        width: 128
+        height: 128
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -139,20 +139,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 4028bcf869ea1f14f880d7916ea03582
-      internalID: 1844377431
+      spriteID: 853ef7a7f47b77c4c922dbfda41913b9
+      internalID: -1803091679
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Coin_2
+      name: Banknotes_2
       rect:
         serializedVersion: 2
-        x: 11
-        y: 43
-        width: 96
-        height: 42
+        x: 0
+        y: 0
+        width: 128
+        height: 128
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -160,20 +160,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 8e0ced90376255d4a9e07fb63dd55426
-      internalID: -2023693966
+      spriteID: 66e60be113c75ae4da83dba070c1f75c
+      internalID: 656120481
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Coin_3
+      name: Banknotes_3
       rect:
         serializedVersion: 2
-        x: 139
-        y: 43
-        width: 96
-        height: 42
+        x: 128
+        y: 0
+        width: 128
+        height: 128
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -181,8 +181,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 6d60bd66ccef0f340898a95e881bef4e
-      internalID: -1991817494
+      spriteID: 32f023c37c701ac4591decc1b98e537c
+      internalID: 2101317898
       vertices: []
       indices: 
       edges: []
@@ -198,10 +198,10 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Coin_0: -924121227
-      Coin_2: -2023693966
-      Coin_1: 1844377431
-      Coin_3: -1991817494
+      Banknotes_2: 656120481
+      Banknotes_1: -1803091679
+      Banknotes_3: 2101317898
+      Banknotes_0: -1456560526
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
