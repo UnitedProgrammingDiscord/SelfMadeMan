@@ -33,7 +33,34 @@ public class Player : MonoBehaviour {
     building.GenerateFullRoad();
   }
 
+  bool pickingUp = false;
   void Update() {
+    if (!pickingUp) {
+      HandleMovement();
+
+      if (Input.GetKeyDown(KeyCode.LeftControl)) {
+        // Do we have any pickable obejct under us?
+        Collider2D coll = Physics2D.OverlapCircle(transform.position, 2);
+        if (coll != null && coll.gameObject != null) {
+          // FIXME check if it is a pickable item
+          // FIXME Check if we can pick the object (space in inventory)
+          movement = Vector3.zero;
+          anim.SetInteger("walk", 0);
+          anim.Play("Pick");
+          pickingUp = true;
+        }
+      }
+    }
+
+    HandleCameraFollow();
+    HandleTimeOfDay();
+  }
+
+  public void CompletePickup() {
+    pickingUp = false;
+  }
+
+  void HandleMovement() {
     float mx = Input.GetAxis("Horizontal");
     if (mx == 0) movement.x *= (1 - 15 * Time.deltaTime);
     else {
@@ -61,10 +88,8 @@ public class Player : MonoBehaviour {
       if (movement.x > 0) transform.localScale = MoveRight;
       else transform.localScale = MoveLeft;
     }
-
-    HandleCameraFollow();
-    HandleTimeOfDay();
   }
+
   void HandleCameraFollow() {
   float camDist = Mathf.Abs(transform.position.x - cam.transform.position.x);
     if (camDist > 2.5f) {

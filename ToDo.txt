@@ -10,17 +10,17 @@
 !Move on the sides (up/down) respecting colliders
 !Add skybox and time
 !The speed of the time can be changed
+!Created pickup anim
 
 
 
 Add specific buildings
 Add specific items (trees, trashcans, bins)
 Add second layer of buildings in background? Or trees?
-Define roads and crossroads
+
 Define minimap
 
 Create anim: run
-Create anim: pickup
 Create anim: work
 Create anim: enter (vertical)
 Create anim: exit (vertical)
@@ -30,6 +30,9 @@ Add bars: health, food, drink, items, coins
 Add trees in the generation of the road
 
 Set limits to roads (min and max X position)
+
+Road properties: name, cleaniness, criminality, expensiveness
+Define crossroads
 
 
 ********** Bugs *******************
