@@ -1,4 +1,3 @@
-using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
@@ -103,11 +102,17 @@ public class Player : MonoBehaviour {
   public byte val = 0;
 
   float timeUpdateDelay = 0;
+  float hourPassed = 0;
   void HandleTimeOfDay() {
     dayTime += Time.deltaTime * TimeSpeed;
     if (dayTime >= 24) dayTime -= 24f;
-    Color32 c = Color.white;
+    hourPassed += Time.deltaTime * TimeSpeed;
+    if (hourPassed > 1) {
+      hourPassed -= 1;
+      CalculateAndDrawStats();
+    }
 
+    Color32 c = Color.white;
     if (dayTime < 6) c.a = 0;
     else if (dayTime < 8) c.a = (byte)(255 * (dayTime - 6) * .5f);
     else if (dayTime <= 19) c.a = 255;
@@ -140,5 +145,80 @@ public class Player : MonoBehaviour {
     if (val == 2) TimeSpeed = .5f;    // 30 mins each second -> 2 seconds per 1 hour
     if (val == 3) TimeSpeed = 1f;     // 1 hour per second
     if (val == 4) TimeSpeed = 2f;     // 2 hours per second
+  }
+
+
+  // Stats
+  float health = 100;
+  float food = 100;
+  float drink = 100;
+  float sleep = 100;
+  Diseases diseases = Diseases.None;
+  int coins = 0;
+  int credits = 0;
+  public Transform HealthBar;
+  public Transform FoodBar;
+  public Transform DrinkBar;
+  public Transform SleepBar;
+
+  void CalculateAndDrawStats() {
+    // This should be called every hour by the time management code
+
+    // Calculate diseases multiplier
+    float disease = 1;
+    if (diseases.HasFlag(Diseases.Cold)) disease *= .9f;
+    if (diseases.HasFlag(Diseases.Flu)) disease *= .75f;
+    if (diseases.HasFlag(Diseases.BackPain)) disease *= .8f;
+    if (diseases.HasFlag(Diseases.Stress)) disease *= .85f;
+
+
+    // No food or no drink will reduce health
+    if (food < 5) health -= (5 - food) * .5f;
+    if (drink < 10) health -= (10 - drink) * .25f;
+
+    // If there is food and drink and sleep recover health
+    if (sleep > 5) { // No sleep will not recover health
+
+      health += (food * .1f + drink * .05f * sleep * .2f) * disease;
+    }
+
+    // Low sleep will make slower walk and high risk of errors
+    // Diseases will limit health
+
+    // Drink will go down with time. Faster if doing activities (walking)
+    drink -= 6.5f;
+    // Food will go down with time. Faster if doing activities (working, carrying weights)
+    food -= 4f;
+    // Sleep will go down with time. Faster if doing activities (working)
+    sleep -= 3.5f;
+
+    // Clamp
+    food = Mathf.Clamp(food, 0, 100);
+    drink = Mathf.Clamp(drink, 0, 100);
+    sleep = Mathf.Clamp(sleep, 0, 100);
+    health = Mathf.Clamp(health, -1, 100 * disease);
+
+    // Update bars
+    HealthBar.localScale = new Vector3(health * .01f, 1, 1);
+    FoodBar.localScale = new Vector3(food * .01f, 1, 1);
+    DrinkBar.localScale = new Vector3(drink * .01f, 1, 1);
+    SleepBar.localScale = new Vector3(sleep * .01f, 1, 1);
+  }
+
+  [System.Flags]
+  public enum Diseases {
+    None = 0,
+    Cold = 1, 
+    Flu = 2, 
+    BackPain = 4, 
+    Stress = 8
+  }
+  public enum Education {
+    None = 0,
+    PrimarySchool, 
+    SecondarySchool, 
+    HighSchool,
+    College,
+    MasterDegree
   }
 }

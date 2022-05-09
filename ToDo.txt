@@ -8,25 +8,22 @@
 !Add road generation
 !Create main character and walk animation
 !Move on the sides (up/down) respecting colliders
+!Add bars: health, food, drink, sleep
 !Add skybox and time
 !The speed of the time can be changed
 !Created pickup anim
 
 
-
+---------------------- The to do ------------------------------------------------------------------
+Inventory
 Add specific buildings
 Add specific items (trees, trashcans, bins)
 Add second layer of buildings in background? Or trees?
-
 Define minimap
-
 Create anim: run
 Create anim: work
 Create anim: enter (vertical)
 Create anim: exit (vertical)
-
-Add bars: health, food, drink, items, coins
-
 Add trees in the generation of the road
 
 Set limits to roads (min and max X position)
@@ -34,6 +31,38 @@ Set limits to roads (min and max X position)
 Road properties: name, cleaniness, criminality, expensiveness
 Define crossroads
 
+draw base human body sprites (feet, legs, arms, hands, body, head)
+draw basic clothes
+draw beards, eyes, mouths, hair, glasses, belly
+
+
+Define stats: health, food, drink, sleep, education, money, cleaniness, presentability, diseases (cold, flu, pain, ...)
+
+Create intro, title screen, and game over
+
+Define all possible type of buildings and interactivity
+Buildings: Fountain (get free water, can clean up a little)
+Buildings: Park (can rest a little)
+Buildings: Resturant (get food and some drink, may work)
+Buildings: Gas station (work, get small amount of food and drink)
+Buildings: Police (?)
+Buildings: Bank (change money, deposit money)
+Buildings: Jail (?)
+Buildings: Metro Station (move to different part of city)
+Buildings: Dumpster (find stuff?)
+Buildings: Food stands (get food and drinks, may work)
+Buildings: Stores (clothes/pharmacy/soaps, buy items, may work)
+Buildings: Gym (get in shape, improve health, may work)
+Buildings: School (get education)
+Buildings: High School (get education)
+Buildings: College (get education)
+Buildings: Recycling center (sell items to recycle)
+Buildings: Market (buy stuff, may work)
+Buildings: Butcher (may work, can buy bones)
+Buildings: Bar (get drinks, may work)
+Buildings: Pub (get some food and drinks, may work)
+Buildings: Hotel (can get sleep and get clean)
+Buildings: Apartments (sleep and get clean)
 
 ********** Bugs *******************
 
@@ -50,54 +79,13 @@ In some specific places you may move to a different road. Maybe with a "metro" s
 You start with a very bad shaped human character.
 Character cannot do much.
 You try to collect all items you can to gain money and improve yourself.
-(shape, clothing, health, education, etc.)
 There is trash around the city that can be recycled to get some little money.
 There is some money (small amounts) on the roads from time to time.
 There can be thiefs or cops that may rob you or arrest you.
 Some buildings may offer something to buy
 Some buildings may offer some jobs to do
 The possible actions may depend on your knowledge, levels, and aspect
-City may be randomly generated
-The goal (end game) will be to reach a certain objective (random? Liek owning a home? Or getting 1 million money?)
+The goal (end game) will be to reach a certain objective (random? Like owning a home? Or getting 1 million money?)
 Maybe some very simple dialogue system to interact with some NPCs.
 You can find or buy things like shoppers, bags, etc. that will allow you to carry more items
 
-
----------------------- The to do ------------------------------------------------------------------
-draw base human body sprites (feet, legs, arms, hands, body, head)
-draw basic clothes
-draw beards, eyes, mouths, hair, glasses, belly
-build clothes
-
-Create time: normal speed: 1 day in 6 minutes, can be double twice and halved once.
-Create day/night cycle altering colors and skyline (but use a cartoonish one)
-
-Make randomly generated map and make possible to walk around (keys or mouse)
-Define interaction and input (how to move, how to interact, how to use items)
-
-Define all possible type of buildings and interactivity
-
-
----------------------- Buildings ------------------------------------------------------------------
-
-Park
-Resturant
-Gas station
-Police
-Bank
-Jail
-Metro Station
-Dumpster
-Food stands
-Stores (clothes/pharmacy/soaps)
-Gym
-School
-High School
-College
-Recycling center
-Market
-Butcher
-Bar
-Pub
-Hotel
-Apartments
