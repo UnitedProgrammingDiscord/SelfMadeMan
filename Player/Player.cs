@@ -8,7 +8,8 @@ public class Player : MonoBehaviour {
   public BuildingGenerator building;
   public SpriteRenderer SkyDay, SkyNight;
   public Light2D GlobalLight;
-  public static Transform mt;
+  static Transform mt;
+  public Inventory inventory;
 
   internal static Transform GetTransform() {
     return mt;
@@ -40,13 +41,18 @@ public class Player : MonoBehaviour {
       if (Input.GetKeyDown(KeyCode.LeftControl)) {
         // Do we have any pickable obejct under us?
         Collider2D coll = Physics2D.OverlapCircle(transform.position, 2);
-        if (coll != null && coll.gameObject != null) {
-          // FIXME check if it is a pickable item
-          // FIXME Check if we can pick the object (space in inventory)
+        if (coll != null && coll.gameObject != null && coll.TryGetComponent(out Item item)) {
+          // Can we pick the object (space in inventory)?
           movement = Vector3.zero;
           anim.SetInteger("walk", 0);
+          if (inventory.PutItem(item)) {
+            // Do some sound or show a message
+            return;
+          }
           anim.Play("Pick");
           pickingUp = true;
+          inventory.PutItem(item);
+          Destroy(item.gameObject);
         }
       }
     }
@@ -154,8 +160,6 @@ public class Player : MonoBehaviour {
   float drink = 100;
   float sleep = 100;
   Diseases diseases = Diseases.None;
-  int coins = 0;
-  int credits = 0;
   public Transform HealthBar;
   public Transform FoodBar;
   public Transform DrinkBar;
@@ -166,10 +170,12 @@ public class Player : MonoBehaviour {
 
     // Calculate diseases multiplier
     float disease = 1;
-    if (diseases.HasFlag(Diseases.Cold)) disease *= .9f;
+    if (diseases.HasFlag(Diseases.Cold)) disease *= .95f;
     if (diseases.HasFlag(Diseases.Flu)) disease *= .75f;
     if (diseases.HasFlag(Diseases.BackPain)) disease *= .8f;
     if (diseases.HasFlag(Diseases.Stress)) disease *= .85f;
+    if (diseases.HasFlag(Diseases.Infection)) disease *= .5f;
+    if (diseases.HasFlag(Diseases.StomachAche)) disease *= .7f;
 
 
     // No food or no drink will reduce health
@@ -211,7 +217,9 @@ public class Player : MonoBehaviour {
     Cold = 1, 
     Flu = 2, 
     BackPain = 4, 
-    Stress = 8
+    Stress = 8,
+    Infection = 16,
+    StomachAche = 32,
   }
   public enum Education {
     None = 0,
@@ -221,4 +229,6 @@ public class Player : MonoBehaviour {
     College,
     MasterDegree
   }
+
 }
+

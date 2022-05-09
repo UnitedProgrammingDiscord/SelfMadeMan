@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: c1fb563887347ea49b0d8e43ea5161c4
+guid: 08c03adaf8cd92645b37934cd799d5dd
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -36,19 +36,19 @@ TextureImporter:
     filterMode: 1
     aniso: 1
     mipBias: 0
-    wrapU: 1
-    wrapV: 1
-    wrapW: 1
+    wrapU: 0
+    wrapV: 0
+    wrapW: 0
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 2
+  spriteMode: 1
   spriteExtrude: 1
-  spriteMeshType: 1
+  spriteMeshType: 0
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
-  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 512
+  spriteBorder: {x: 8, y: 24, z: 8, w: 24}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
   alphaIsTransparency: 1
@@ -104,13 +104,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Arrows_0
+      name: PBar_0
       rect:
         serializedVersion: 2
         x: 0
-        y: 66
-        width: 53
-        height: 62
+        y: 0
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -118,92 +118,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ff92a903b9df5c4428a5c009d94fa7a3
-      internalID: -590000033
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Arrows_1
-      rect:
-        serializedVersion: 2
-        x: 63
-        y: 66
-        width: 74
-        height: 62
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 0673f1b12b5edd94fb880dfda6519c10
-      internalID: 1827346811
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Arrows_2
-      rect:
-        serializedVersion: 2
-        x: 149
-        y: 65
-        width: 92
-        height: 63
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 1e271342f0c64344fa7501ddc5e008cd
-      internalID: 1755372301
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Arrows_3
-      rect:
-        serializedVersion: 2
-        x: 16
-        y: 2
-        width: 103
-        height: 63
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 474cfb3f70c8804458f4469c37394270
-      internalID: -1184130327
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Arrows_4
-      rect:
-        serializedVersion: 2
-        x: 143
-        y: 1
-        width: 103
-        height: 63
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 18b9039f288d5764fa690f6a9f8dbab5
-      internalID: -172462715
+      spriteID: bb9eeaca7b3b5b448ac81342ccf6803e
+      internalID: -784391220
       vertices: []
       indices: 
       edges: []
@@ -212,18 +128,14 @@ TextureImporter:
     physicsShape: []
     bones: []
     spriteID: 5e97eb03825dee720800000000000000
-    internalID: 0
+    internalID: 1537655665
     vertices: []
     indices: 
     edges: []
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Arrows_0: -590000033
-      Arrows_4: -172462715
-      Arrows_3: -1184130327
-      Arrows_1: 1827346811
-      Arrows_2: 1755372301
+      PBar_0: -784391220
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

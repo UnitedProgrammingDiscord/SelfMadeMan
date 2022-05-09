@@ -52,17 +52,47 @@ Buildings: Metro Station (move to different part of city)
 Buildings: Dumpster (find stuff?)
 Buildings: Food stands (get food and drinks, may work)
 Buildings: Stores (clothes/pharmacy/soaps, buy items, may work)
-Buildings: Gym (get in shape, improve health, may work)
+Buildings: Gym (get in shape, improve health, sell snacks, may work)
 Buildings: School (get education)
 Buildings: High School (get education)
 Buildings: College (get education)
 Buildings: Recycling center (sell items to recycle)
 Buildings: Market (buy stuff, may work)
+Buildings: SuperMarket (buy stuff, sell glass and plastic, may work)
 Buildings: Butcher (may work, can buy bones)
 Buildings: Bar (get drinks, may work)
 Buildings: Pub (get some food and drinks, may work)
 Buildings: Hotel (can get sleep and get clean)
 Buildings: Apartments (sleep and get clean)
+Buildings: Barber shop (get shaved and get haircut)
+Buildings: Office (may work)
+Buildings: Pharmacy (buy drugs)
+
+
+Items:
+coins	5
+coins	10
+coins	25
+coins	50
+banknotes 1
+banknotes	5
+banknotes	10
+banknotes	20
+glass bottles
+plastic bottles
+paper
+bones
+snack
+soda
+water bottle
+soap
+razor
+broom
+book
+shopper
+bag
+suitcase
+
 
 ********** Bugs *******************
 
