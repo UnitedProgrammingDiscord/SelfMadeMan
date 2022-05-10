@@ -65,7 +65,6 @@ Buildings: Add decorations to buildings
 Buildings: Add more Windows
 Buildings: Add more Doors
 Buildings: Add different style of pavements
-Buildings: Add windows on the side
 
 Gameplay: Lottery tickets
 
@@ -77,8 +76,6 @@ Extra: Create intro, title screen, and game over
 
 
 ********** Bugs *******************
-
-The "Streacheable" window does not work on second floor
 
 ********** The Specs *******************
 
@@ -120,4 +117,5 @@ You can find or buy things like shoppers, bags, etc. that will allow you to carr
 !The speed of the time can be changed
 !Created pickup anim
 !Improved colors of buildings
+!Buildings: Add windows on the side
 

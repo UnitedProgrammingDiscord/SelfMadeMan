@@ -124,6 +124,7 @@ public class BuildingGenerator : MonoBehaviour {
     Width = (byte)((key >> 3) & 7) + 4;
     Height = (byte)((key >> 6) & 3) + 3;
     DoorPosition = (byte)((key >> 8) & 7);
+    DoorPosition = (DoorPosition & (Width - 2)) + 1;
     DoorType = (byte)((key >> 11) & 7);
     WindowsType1 = (byte)((key >> 14) & 7);
     WindowsNum1 = (byte)((key >> 17) & 3);
@@ -277,8 +278,8 @@ public class BuildingGenerator : MonoBehaviour {
       // Door
       DoorType dt = Doors[DoorType % Doors.Count];
       int doorp = DoorPosition % Width;
-      if (doorp < 0) doorp = 0;
-      if (doorp + dt.Width > Width) doorp = Width - dt.Width;
+      if (doorp < 1) doorp = 1;
+      if (doorp + dt.Width >= Width) doorp = Width - dt.Width - 1;
       for (int y = 0; y < dt.Height; y++) {
         for (int x = 0; x < dt.Width; x++) {
           doorstm.SetTile(bl + new Vector3Int(doorp + x, dt.Height - y - 1), dt.Tiles[x + dt.Width * y]);
