@@ -105,5 +105,11 @@ public class Item : MonoBehaviour {
     Bag,
     Backpack,
     Suitcase,
+    Bin,
+    TrashcanOrg,
+    TrashcanRecycle,
+    TrashcanDump,
+    Trashcan1,
+    Trashcan2,
   }
 }
