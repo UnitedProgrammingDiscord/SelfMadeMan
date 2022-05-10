@@ -25,8 +25,8 @@ public class Inventory : MonoBehaviour
     // FIXME in case we cannot keep the items do something
   }
 
-  public bool CannotFit(Item item) {
-    return (count >= GetMaxNum());
+  public bool InventoryFull() {
+    return count >= GetMaxNum();
   }
 
 
@@ -78,7 +78,7 @@ public class Inventory : MonoBehaviour
   }
 
   public enum InventoryType {
-    // Max items    Max weight
+                // Max items    Max weight
     Hands=0,    // 2            2kg       
     Pockets=1,  // 4            2kg       
     Shopper=2,  // 15           3kg       

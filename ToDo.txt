@@ -1,46 +1,40 @@
-﻿!Add colors for buildings
-!Add random string for generation
-!Draw the side of the building also if before the space
-!Build walls and roof only if the cells are empty
-!Use a second roof tilemap to avoid clashing of tiles
-!Add multiple building generation
-!Correctly handled the overlapping roofs
-!Add road generation
-!Create main character and walk animation
-!Move on the sides (up/down) respecting colliders
-!Add bars: health, food, drink, sleep
-!Add skybox and time
-!The speed of the time can be changed
-!Created pickup anim
-
-
+﻿
 ---------------------- The to do ------------------------------------------------------------------
-Inventory
-Add specific buildings
-Add specific items (trees, trashcans, bins)
-Add second layer of buildings in background? Or trees?
-Define minimap
-Create anim: run
-Create anim: work
-Create anim: enter (vertical)
-Create anim: exit (vertical)
-Add trees in the generation of the road
 
-Set limits to roads (min and max X position)
+Gameplay: Inventory
+Gameplay: Add specific items (trashcans, bins)
 
-Road properties: name, cleaniness, criminality, expensiveness
-Define crossroads
-
-draw base human body sprites (feet, legs, arms, hands, body, head)
-draw basic clothes
-draw beards, eyes, mouths, hair, glasses, belly
+Extra: Define minimap
+Extra: Add second layer of buildings in background? Or trees?
 
 
-Define stats: health, food, drink, sleep, education, money, cleaniness, presentability, diseases (cold, flu, pain, ...)
+Character: [anim] run
+Character: [anim] work
+Character: [anim] enter (vertical)
+Character: [anim] exit (vertical)
+Character: draw base human body sprites (feet, legs, arms, hands, body, head)
+Character: draw basic clothes
+Character: draw beards, eyes, mouths, hair, glasses, belly
 
-Create intro, title screen, and game over
 
-Define all possible type of buildings and interactivity
+Roads: Set limits to roads (min and max X position)
+Roads: name, cleaniness, criminality, expensiveness
+Roads: Define crossroads
+Roads: Generate full city based on a name. Define a few (squared) roads (horiz and vert) with names from a big list. Define intersections between roads
+Roads: Have in the intro a way to define number of roads and name of each road in the UI
+
+
+Gameplay: [Stats] education, cleaniness, presentability
+UI: [Stats] education, cleaniness, presentability
+
+Extra: Create intro, title screen, and game over
+
+Gameplay: Define all possible type of buildings and interactivity
+Gameplay: Define a way to interact with buildings
+
+Buildings: Add road names at intersections
+Buildings: Add signs to buildings (names, open hours, etc.)
+Buildings: Add trees in the generation of the road
 Buildings: Fountain (get free water, can clean up a little)
 Buildings: Park (can rest a little)
 Buildings: Resturant (get food and some drink, may work)
@@ -67,31 +61,17 @@ Buildings: Apartments (sleep and get clean)
 Buildings: Barber shop (get shaved and get haircut)
 Buildings: Office (may work)
 Buildings: Pharmacy (buy drugs)
+Buildings: Library (get education)
 
+Buildings: Add a range of building colors, pick one color and vary a little bit the HSV values. Set the Saturation proportional to the "Happiness"
+Buildings: Add decorations to buildings
+Buildings: Add more Windows
+Buildings: Add more Doors
+Buildings: Add different style of pavements
 
-Items:
-coins	5
-coins	10
-coins	25
-coins	50
-banknotes 1
-banknotes	5
-banknotes	10
-banknotes	20
-glass bottles
-plastic bottles
-paper
-bones
-snack
-soda
-water bottle
-soap
-razor
-broom
-book
-shopper
-bag
-suitcase
+Gameplay: Lottery tickets
+
+Dialogues: Add dialogue system
 
 
 ********** Bugs *******************
@@ -118,4 +98,23 @@ The possible actions may depend on your knowledge, levels, and aspect
 The goal (end game) will be to reach a certain objective (random? Like owning a home? Or getting 1 million money?)
 Maybe some very simple dialogue system to interact with some NPCs.
 You can find or buy things like shoppers, bags, etc. that will allow you to carry more items
+
+
+
+---------------------- DONE ------------------------------------------------------------------
+!Add colors for buildings
+!Add random string for generation
+!Draw the side of the building also if before the space
+!Build walls and roof only if the cells are empty
+!Use a second roof tilemap to avoid clashing of tiles
+!Add multiple building generation
+!Correctly handled the overlapping roofs
+!Add road generation
+!Create main character and walk animation
+!Move on the sides (up/down) respecting colliders
+!Add bars: health, food, drink, sleep
+!Add skybox and time
+!The speed of the time can be changed
+!Created pickup anim
+!Improved colors of buildings
 

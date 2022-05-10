@@ -39,6 +39,7 @@ public class BuildingGenerator : MonoBehaviour {
   public int MaterialType = 0;
   public Color WallsColor = Color.white;
   public Color RoofColor = Color.white;
+  [Range(0, 1)] public float Happiness = .75f;
 
   [Header("Randomness")]
   public string RandomHash;
@@ -51,8 +52,55 @@ public class BuildingGenerator : MonoBehaviour {
   public List<TileBase> Roof;
   public List<TileBase> Roads;
 
+  readonly string[] buildingColors = {
+"#fa8d93ff",
+"#c5aa53ff",
+"#9d9f92ff",
+"#f58987ff",
+"#cda54eff",
+"#bd9357ff",
+"#b68b25ff",
+"#d0981fff",
+"#a2988eff",
+"#bc7271ff",
+"#82272eff",
+"#798986ff",
+"#018bafff",
+"#b37659ff",
+"#7c4f32ff",
+"#a79e5dff",
+"#a9a05fff",
+"#f1e7a2ff",
+"#fddbcfff",
+"#f1d3c9ff",
+"#d85e59ff",
+"#8d9a7eff",
+"#8abfe9ff",
+"#fc6380ff",
+"#fae697ff",
+"#ffa48dff",
+"#00af6bff",
+"#00af6bff",
+"#c6aa94ff",
+"ba8691",
+"c4a670",
+"c4b783",
+"a1c0b0",
+"a3bbad",
+"e6e9de",
+"a3badb",
+"fdd4ce",
+"b695a8",
+"94a4bb",
+"f5edae",
+"fe9e76",
+"beb18f",
+"db7b6f",
+"d7e0db",
+"a1b0c3",
+};
 
-  Tilemap btm;
+
   Tilemap[] rtmsEv;
   Tilemap[] rtmsOd;
 
@@ -119,13 +167,18 @@ public class BuildingGenerator : MonoBehaviour {
     WindowsNum2 = (byte)((key >> 22) & 7);
     MaterialType = (byte)((key >> 25) & 7);
 
-    float h = (byte)((key >> 28) & 255) / 255f;
-    float s = (byte)((key >> 36) & 15) / 45f + .025f;
-    float v = (byte)((key >> 40) & 15) / 75f + .5f;
+    int cpos = (byte)(buildingColors.Length * ((int)(key >> 28) & 255) / 255f);
+    string hex = buildingColors[cpos];
+    ColorUtility.TryParseHtmlString(hex, out Color fhc);
+    fhc.a = 1;
+    // Set saturation according to happiness
+    Color.RGBToHSV(fhc, out float h, out float s, out float v);
+    s *= Happiness;
+    s = .975f * s + .025f;
     Color32 hc = Color.HSVToRGB(h, s, v);
     hc.a = 255;
     WallsColor = hc;
-    hc = Color.HSVToRGB(h < .5f ? h * h : 1 - (1 - h) * (1 - h), s * .5f, v * .8f);
+    hc = Color.HSVToRGB(h < .5f ? h * h * h : (1 - h) * (1 - h) * (1 - h), s * .5f, v * .8f); // Make roofs more on the red
     hc.a = 255;
     RoofColor = hc;
   }
@@ -369,7 +422,7 @@ public class BuildingGenerator : MonoBehaviour {
 
 
   void SetTile(Vector3Int pos, Tilemap tm, Color color, TileBase tile) {
-    if (tm == btm) {
+    if (tm == buildingtm) {
       foreach (var rtm in rtmsEv) rtm.SetTile(pos, null);
       foreach (var rtm in rtmsOd) rtm.SetTile(pos, null);
     }

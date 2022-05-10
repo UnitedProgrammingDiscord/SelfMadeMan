@@ -45,7 +45,7 @@ public class Player : MonoBehaviour {
           // Can we pick the object (space in inventory)?
           movement = Vector3.zero;
           anim.SetInteger("walk", 0);
-          if (inventory.CannotFit(item)) {
+          if (inventory.InventoryFull()) {
             // Do some sound or show a message
             return;
           }

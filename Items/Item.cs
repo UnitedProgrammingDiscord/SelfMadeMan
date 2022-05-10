@@ -54,6 +54,7 @@ public class Item : MonoBehaviour {
       case ItemType.CanJuice: return .3f;
       case ItemType.CanBeer: return .3f;
       case ItemType.CanSoda: return .3f;
+      case ItemType.CanEnergyDrink: return .3f;
       case ItemType.Paper: return .1f;
       case ItemType.Bones: return .2f;
       case ItemType.Snack: return .15f;
@@ -89,6 +90,7 @@ public class Item : MonoBehaviour {
     CanJuice,
     CanBeer,
     CanSoda,
+    CanEnergyDrink,
     Paper,
     Bones,
     Snack,
