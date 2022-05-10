@@ -4,9 +4,6 @@
 Gameplay: Inventory
 Gameplay: Add specific items (trashcans, bins)
 
-Extra: Define minimap
-Extra: Add second layer of buildings in background? Or trees?
-
 
 Character: [anim] run
 Character: [anim] work
@@ -24,11 +21,10 @@ Roads: Generate full city based on a name. Define a few (squared) roads (horiz a
 Roads: Have inside the intro a way to define number of roads and name of each road in the UI
 
 
-Gameplay: Generate randomly trash and things on the road (depending on clealiness of the road)
+Gameplay: Generate randomly trash and things on the road (depending on clealiness of the road): paper, bottles, cans
 Gameplay: [Stats] education, cleaniness, presentability
 UI: [Stats] education, cleaniness, presentability
 
-Extra: Create intro, title screen, and game over
 
 Gameplay: Define all possible type of buildings and interactivity
 Gameplay: Define a way to interact with buildings
@@ -75,9 +71,14 @@ Gameplay: Lottery tickets
 
 Dialogues: Add dialogue system
 
+Extra: Define minimap
+Extra: Add second layer of buildings in background? Or trees?
+Extra: Create intro, title screen, and game over
+
 
 ********** Bugs *******************
 
+The "Streacheable" window does not work on second floor
 
 ********** The Specs *******************
 

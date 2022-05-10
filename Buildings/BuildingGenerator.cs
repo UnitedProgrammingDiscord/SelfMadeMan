@@ -40,6 +40,7 @@ public class BuildingGenerator : MonoBehaviour {
   public Color WallsColor = Color.white;
   public Color RoofColor = Color.white;
   [Range(0, 1)] public float Happiness = .75f;
+  public BuildingType BType;
 
   [Header("Randomness")]
   public string RandomHash;
@@ -53,52 +54,15 @@ public class BuildingGenerator : MonoBehaviour {
   public List<TileBase> Roads;
 
   readonly string[] buildingColors = {
-"#fa8d93ff",
-"#c5aa53ff",
-"#9d9f92ff",
-"#f58987ff",
-"#cda54eff",
-"#bd9357ff",
-"#b68b25ff",
-"#d0981fff",
-"#a2988eff",
-"#bc7271ff",
-"#82272eff",
-"#798986ff",
-"#018bafff",
-"#b37659ff",
-"#7c4f32ff",
-"#a79e5dff",
-"#a9a05fff",
-"#f1e7a2ff",
-"#fddbcfff",
-"#f1d3c9ff",
-"#d85e59ff",
-"#8d9a7eff",
-"#8abfe9ff",
-"#fc6380ff",
-"#fae697ff",
-"#ffa48dff",
-"#00af6bff",
-"#00af6bff",
-"#c6aa94ff",
-"#ba8691ff",
-"#c4a670ff",
-"#c4b783ff",
-"#a1c0b0ff",
-"#a3bbadff",
-"#e6e9deff",
-"#a3badbff",
-"#fdd4ceff",
-"#b695a8ff",
-"#94a4bbff",
-"#f5edaeff",
-"#fe9e76ff",
-"#beb18fff",
-"#db7b6fff",
-"#d7e0dbff",
-"#a1b0c3ff",
-};
+    "#fa8d93ff", "#c5aa53ff", "#9d9f92ff", "#f58987ff", "#cda54eff", "#bd9357ff",
+    "#b68b25ff", "#d0981fff", "#a2988eff", "#bc7271ff", "#82272eff", "#798986ff",
+    "#018bafff", "#b37659ff", "#7c4f32ff", "#a79e5dff", "#a9a05fff", "#f1e7a2ff",
+    "#fddbcfff", "#f1d3c9ff", "#d85e59ff", "#8d9a7eff", "#8abfe9ff", "#fc6380ff",
+    "#fae697ff", "#ffa48dff", "#00af6bff", "#00af6bff", "#c6aa94ff", "#ba8691ff",
+    "#c4a670ff", "#c4b783ff", "#a1c0b0ff", "#a3bbadff", "#e6e9deff", "#a3badbff",
+    "#fdd4ceff", "#b695a8ff", "#94a4bbff", "#f5edaeff", "#fe9e76ff", "#beb18fff",
+    "#db7b6fff", "#d7e0dbff", "#a1b0c3ff", "#d85d79ff", "#fdab8fff", "#a9a09fff",
+   };
 
 
   Tilemap[] rtmsEv;
@@ -167,6 +131,11 @@ public class BuildingGenerator : MonoBehaviour {
     WindowsNum2 = (byte)((key >> 22) & 7);
     MaterialType = (byte)((key >> 25) & 7);
 
+    if (WindowsNum1 == 0 && WindowsNum2 == 0) {
+      if (Height < 3) WindowsNum1 = 1;
+      else WindowsNum2 = 1;
+    }
+
     int cpos = (byte)(buildingColors.Length * ((int)(key >> 28) & 255) / 255f);
     string hex = buildingColors[cpos];
     ColorUtility.TryParseHtmlString(hex, out Color fhc);
@@ -223,164 +192,199 @@ public class BuildingGenerator : MonoBehaviour {
     if (depth > Height) depth = Height;
     if (depth > 4) depth = 4;
 
-    // Side walls
-    for (int x = 0; x < depth; x++) {
-      Vector3Int pos = new Vector3Int(-x - 1, x) + bl;
-      SetTile(pos, buildingtm, col, mat.tiles[6]);
-      for (int y = 1; y < Height; y++) {
-        pos = new Vector3Int(-x - 1, y + x) + bl;
-        SetTile(pos, buildingtm, col, mat.tiles[5]);
-      }
-      pos = new Vector3Int(-x - 1, Height + x) + bl;
-      SetTile(pos, buildingtm, col, mat.tiles[4]);
-    }
+    bool drawWalls = (BType != BuildingType.Intersection) && (BType != BuildingType.SmallPark) &&
+      (BType != BuildingType.Park) && (BType != BuildingType.Garden) && (BType != BuildingType.FoodTruck) &&
+      (BType != BuildingType.Market) && (BType != BuildingType.Dumpster) && (BType != BuildingType.Grass);
 
-    // Left walls
-    for (int y = 0; y < Height; y++) {
-      Vector3Int pos = new Vector3Int(0, y) + bl;
-      if (mat.mode == PiecePos.LeftRightRandom2 || mat.mode == PiecePos.LeftRightMod2X || mat.mode == PiecePos.LeftRightMod2Y || mat.mode == PiecePos.LeftRightMod2XY)
-        SetTile(pos, buildingtm, col, mat.tiles[0]);
-      else if (mat.mode == PiecePos.Random4)
-        SetTile(pos, buildingtm, col, mat.tiles[Random.Range(0, 4)]);
-      else if (mat.mode == PiecePos.Mod4X)
-        SetTile(pos, buildingtm, col, mat.tiles[SpaceBefore % 4]);
-      else if (mat.mode == PiecePos.Mod4X)
-        SetTile(pos, buildingtm, col, mat.tiles[y % 4]);
-      else if (mat.mode == PiecePos.Mod4XY)
-        SetTile(pos, buildingtm, col, mat.tiles[(SpaceBefore + y) % 4]);
-      else if (mat.mode == PiecePos.LeftLeftRight)
-        SetTile(pos, buildingtm, col, mat.tiles[0]);
-    }
-    // Center walls
-    for (int x = 1; x < Width - 1; x++) {
+
+
+    if (drawWalls) {
+      // Side walls
+      for (int x = 0; x < depth; x++) {
+        Vector3Int pos = new Vector3Int(-x - 1, x) + bl;
+        SetTile(pos, buildingtm, col, mat.tiles[6]);
+        for (int y = 1; y < Height; y++) {
+          pos = new Vector3Int(-x - 1, y + x) + bl;
+          SetTile(pos, buildingtm, col, mat.tiles[5]);
+        }
+        pos = new Vector3Int(-x - 1, Height + x) + bl;
+        SetTile(pos, buildingtm, col, mat.tiles[4]);
+      }
+      // Left walls
       for (int y = 0; y < Height; y++) {
-        Vector3Int pos = new Vector3Int(x, y) + bl;
-        if (mat.mode == PiecePos.LeftRightRandom2)
-          SetTile(pos, buildingtm, col, mat.tiles[Random.Range(1, 3)]);
-        else if (mat.mode == PiecePos.LeftRightMod2X)
-          SetTile(pos, buildingtm, col, mat.tiles[pos.x % 2 + 1]);
-        else if (mat.mode == PiecePos.LeftRightMod2Y)
-          SetTile(pos, buildingtm, col, mat.tiles[pos.y % 2 + 1]);
-        else if (mat.mode == PiecePos.LeftRightMod2XY)
-          SetTile(pos, buildingtm, col, mat.tiles[(pos.x + pos.y) % 2 + 1]);
+        Vector3Int pos = new Vector3Int(0, y) + bl;
+        if (mat.mode == PiecePos.LeftRightRandom2 || mat.mode == PiecePos.LeftRightMod2X || mat.mode == PiecePos.LeftRightMod2Y || mat.mode == PiecePos.LeftRightMod2XY)
+          SetTile(pos, buildingtm, col, mat.tiles[0]);
         else if (mat.mode == PiecePos.Random4)
           SetTile(pos, buildingtm, col, mat.tiles[Random.Range(0, 4)]);
         else if (mat.mode == PiecePos.Mod4X)
-          SetTile(pos, buildingtm, col, mat.tiles[pos.x % 4]);
+          SetTile(pos, buildingtm, col, mat.tiles[SpaceBefore % 4]);
         else if (mat.mode == PiecePos.Mod4X)
-          SetTile(pos, buildingtm, col, mat.tiles[pos.y % 4]);
+          SetTile(pos, buildingtm, col, mat.tiles[y % 4]);
         else if (mat.mode == PiecePos.Mod4XY)
-          SetTile(pos, buildingtm, col, mat.tiles[(pos.x + pos.y) % 4]);
+          SetTile(pos, buildingtm, col, mat.tiles[(SpaceBefore + y) % 4]);
         else if (mat.mode == PiecePos.LeftLeftRight)
           SetTile(pos, buildingtm, col, mat.tiles[0]);
       }
-    }
-    // Right walls
-    for (int y = 0; y < Height; y++) {
-      Vector3Int pos = new Vector3Int(Width - 1, y) + bl;
-      if (mat.mode == PiecePos.LeftRightRandom2 || mat.mode == PiecePos.LeftRightMod2X || mat.mode == PiecePos.LeftRightMod2Y || mat.mode == PiecePos.LeftRightMod2XY)
-        SetTile(pos, buildingtm, col, mat.tiles[3]);
-      else if (mat.mode == PiecePos.Random4)
-        SetTile(pos, buildingtm, col, mat.tiles[Random.Range(0, 4)]);
-      else if (mat.mode == PiecePos.Mod4X)
-        SetTile(pos, buildingtm, col, mat.tiles[SpaceBefore % 4]);
-      else if (mat.mode == PiecePos.Mod4X)
-        SetTile(pos, buildingtm, col, mat.tiles[y % 4]);
-      else if (mat.mode == PiecePos.Mod4XY)
-        SetTile(pos, buildingtm, col, mat.tiles[(SpaceBefore + y) % 4]);
-      else if (mat.mode == PiecePos.LeftLeftRight)
-        SetTile(pos, buildingtm, col, mat.tiles[3]);
-    }
-
-    // Door
-    DoorType dt = Doors[DoorType % Doors.Count];
-    int doorp = DoorPosition % Width;
-    if (doorp < 0) doorp = 0;
-    if (doorp + dt.Width > Width) doorp = Width - dt.Width;
-    for (int y = 0; y < dt.Height; y++) {
-      for (int x = 0; x < dt.Width; x++) {
-        doorstm.SetTile(bl + new Vector3Int(doorp + x, dt.Height - y - 1), dt.Tiles[x + dt.Width * y]);
-      }
-    }
-
-    // Windows (low level)
-    WindowType wt = Windows[WindowsType1 % Windows.Count];
-    int num = WindowsNum1;
-    if (num > 0) {
-      if (wt.Strecheable) { // If the window is strechable try to fit the space
-        int spaceBeforeDoor = doorp;
-        int spaceAfterDoor = Width - doorp - 1;
-        if (WindowsNum1 == 1) { // Fill the biggest space
-          if (spaceBeforeDoor >= spaceAfterDoor) FillDoor(bl, 0, doorp, wt, doorstm);
-          else FillDoor(bl, doorp + 1, Width, wt, doorstm);
-        }
-        else { // Fill both sides
-          FillDoor(bl, 0, doorp, wt, doorstm);
-          FillDoor(bl, doorp + dt.Width, Width, wt, doorstm);
+      // Center walls
+      for (int x = 1; x < Width - 1; x++) {
+        for (int y = 0; y < Height; y++) {
+          Vector3Int pos = new Vector3Int(x, y) + bl;
+          if (mat.mode == PiecePos.LeftRightRandom2)
+            SetTile(pos, buildingtm, col, mat.tiles[Random.Range(1, 3)]);
+          else if (mat.mode == PiecePos.LeftRightMod2X)
+            SetTile(pos, buildingtm, col, mat.tiles[pos.x % 2 + 1]);
+          else if (mat.mode == PiecePos.LeftRightMod2Y)
+            SetTile(pos, buildingtm, col, mat.tiles[pos.y % 2 + 1]);
+          else if (mat.mode == PiecePos.LeftRightMod2XY)
+            SetTile(pos, buildingtm, col, mat.tiles[(pos.x + pos.y) % 2 + 1]);
+          else if (mat.mode == PiecePos.Random4)
+            SetTile(pos, buildingtm, col, mat.tiles[Random.Range(0, 4)]);
+          else if (mat.mode == PiecePos.Mod4X)
+            SetTile(pos, buildingtm, col, mat.tiles[pos.x % 4]);
+          else if (mat.mode == PiecePos.Mod4X)
+            SetTile(pos, buildingtm, col, mat.tiles[pos.y % 4]);
+          else if (mat.mode == PiecePos.Mod4XY)
+            SetTile(pos, buildingtm, col, mat.tiles[(pos.x + pos.y) % 4]);
+          else if (mat.mode == PiecePos.LeftLeftRight)
+            SetTile(pos, buildingtm, col, mat.tiles[0]);
         }
       }
-      else { // Not streacheable, try to put the specified numebr of windows on each side of the door
-             // split the number in two parts, balancing by space
-        int numbef = WindowsNum1 / 2;
-        int numaft = WindowsNum1 / 2;
-        if (doorp == 0) {
-          numbef = 0;
-          numaft = WindowsNum1;
-        }
-        else if (doorp >= Width - wt.Width) {
-          numbef = WindowsNum1;
-          numaft = 0;
-        }
-        else if (numbef + numaft < WindowsNum1) {
-          if (doorp > Width / 2) numbef++;
-          else numaft++;
-        }
-
-        PlaceDoors(bl, 0, doorp, wt, doorstm, numbef);
-        PlaceDoors(bl, doorp + dt.Width, Width, wt, doorstm, numaft);
+      // Right walls
+      for (int y = 0; y < Height; y++) {
+        Vector3Int pos = new Vector3Int(Width - 1, y) + bl;
+        if (mat.mode == PiecePos.LeftRightRandom2 || mat.mode == PiecePos.LeftRightMod2X || mat.mode == PiecePos.LeftRightMod2Y || mat.mode == PiecePos.LeftRightMod2XY)
+          SetTile(pos, buildingtm, col, mat.tiles[3]);
+        else if (mat.mode == PiecePos.Random4)
+          SetTile(pos, buildingtm, col, mat.tiles[Random.Range(0, 4)]);
+        else if (mat.mode == PiecePos.Mod4X)
+          SetTile(pos, buildingtm, col, mat.tiles[SpaceBefore % 4]);
+        else if (mat.mode == PiecePos.Mod4X)
+          SetTile(pos, buildingtm, col, mat.tiles[y % 4]);
+        else if (mat.mode == PiecePos.Mod4XY)
+          SetTile(pos, buildingtm, col, mat.tiles[(SpaceBefore + y) % 4]);
+        else if (mat.mode == PiecePos.LeftLeftRight)
+          SetTile(pos, buildingtm, col, mat.tiles[3]);
       }
-    }
 
-    // Windows (top levels)
-    wt = Windows[WindowsType2 % Windows.Count];
-    num = WindowsNum2;
-    if (num > 0) {
-      for (int y = 2; y < Height - 1; y += 2) {
-        Vector3Int wbl = bl;
-        wbl.y += y;
+      // Clean up previous windows
+      for (int x = 0; x < Width; x++) {
+        for (int y = 0; y < Height; y++) {
+          SetTile(new Vector3Int(x, y) + bl, doorstm, Color.white, null);
+        }
+      }
 
+      // Door
+      DoorType dt = Doors[DoorType % Doors.Count];
+      int doorp = DoorPosition % Width;
+      if (doorp < 0) doorp = 0;
+      if (doorp + dt.Width > Width) doorp = Width - dt.Width;
+      for (int y = 0; y < dt.Height; y++) {
+        for (int x = 0; x < dt.Width; x++) {
+          doorstm.SetTile(bl + new Vector3Int(doorp + x, dt.Height - y - 1), dt.Tiles[x + dt.Width * y]);
+        }
+      }
+
+      // Windows (low level)
+      WindowType wt = Windows[WindowsType1 % Windows.Count];
+      int num = WindowsNum1;
+      if (num > 0) {
         if (wt.Strecheable) { // If the window is strechable try to fit the space
+          int spaceBeforeDoor = doorp;
+          int spaceAfterDoor = Width - doorp - 1;
           if (WindowsNum1 == 1) { // Fill the biggest space
-            FillDoor(wbl, 0, Width, wt, doorstm);
+            if (spaceBeforeDoor >= spaceAfterDoor) FillDoor(bl, 0, doorp, wt, doorstm);
+            else FillDoor(bl, doorp + 1, Width, wt, doorstm);
           }
-          else { // Fill by num
-            int size = Width / WindowsNum2;
-            if (size < 1) size = 1;
-            for (int i = 0; i < WindowsNum2; i++) {
-              FillDoor(wbl, i * size, (i + 1) * size, wt, doorstm);
-            }
+          else { // Fill both sides
+            FillDoor(bl, 0, doorp, wt, doorstm);
+            FillDoor(bl, doorp + dt.Width, Width, wt, doorstm);
           }
         }
         else { // Not streacheable, try to put the specified numebr of windows on each side of the door
-          PlaceDoors(wbl, 0, Width, wt, doorstm, WindowsNum2);
+               // split the number in two parts, balancing by space
+          int numbef = WindowsNum1 / 2;
+          int numaft = WindowsNum1 / 2;
+          if (doorp == 0) {
+            numbef = 0;
+            numaft = WindowsNum1;
+          }
+          else if (doorp >= Width - wt.Width) {
+            numbef = WindowsNum1;
+            numaft = 0;
+          }
+          else if (numbef + numaft < WindowsNum1) {
+            if (doorp > Width / 2) numbef++;
+            else numaft++;
+          }
+
+          PlaceDoors(bl, 0, doorp, wt, doorstm, numbef);
+          PlaceDoors(bl, doorp + dt.Width, Width, wt, doorstm, numaft);
         }
       }
-    }
 
-    // Roof
-    Tilemap[] rms = rindex == 0 ? roofstmEv : roofstmOd;
-    int rm = Height - 3;
-    if (rm < 0) rm = 0;
-    if (rm >= rms.Length) rm = rms.Length - 1;
-    Tilemap rtm = rms[rm];
+      // Windows (top levels)
+      wt = Windows[WindowsType2 % Windows.Count];
+      num = WindowsNum2;
+      if (num > 0) {
+        for (int y = 2; y < Height - 1; y += 2) {
+          Vector3Int wbl = bl;
+          wbl.y += y;
 
-    for (int x = -1; x < Width; x++) {
-      for (int y = 0; y < depth; y++) {
-        if (x == -1) SetTile(bl + new Vector3Int(x - y, Height + y), rtm, colroof, y == depth - 1 ? Roof[1] : Roof[0]);
-        else if (x == Width - 1) SetTile(bl + new Vector3Int(x - y, Height + y), rtm, colroof, y == 0 ? Roof[3] : Roof[2]);
-        else if (y == 0) SetTile(bl + new Vector3Int(x - y, Height + y), rtm, colroof, Roof[4]);
-        else if (y == depth - 1) SetTile(bl + new Vector3Int(x - y, Height + y), rtm, colroof, Roof[6]);
-        else SetTile(bl + new Vector3Int(x - y, Height + y), rtm, colroof, Roof[5]);
+          if (wt.Strecheable) { // If the window is strechable try to fit the space
+            if (WindowsNum1 == 1) { // Fill the biggest space
+              FillDoor(wbl, 0, Width, wt, doorstm);
+            }
+            else { // Fill by num
+              int size = Width / WindowsNum2;
+              if (size < 2) size = 2;
+              for (int i = 0; i < Width; i += size) {
+                if (i + 2 * size >= Width) {
+                  FillDoor(wbl, i, Width, wt, doorstm);
+                  break;
+                }
+                FillDoor(wbl, i, i + size, wt, doorstm);
+              }
+            }
+          }
+          else { // Not streacheable, try to put the specified numebr of windows on each side of the door
+            PlaceDoors(wbl, 0, Width, wt, doorstm, WindowsNum2);
+          }
+        }
+      }
+
+      // Side Windows
+      if (num > 0 && wt.SHeight != 0 && wt.SWidth != 0) {
+        int yh = (Height / wt.SHeight) * wt.SHeight;
+        int xw = (depth / wt.SWidth) * wt.SWidth;
+        int step = wt.SWidth;
+        if (step < 2) step = 2;
+        for (int x = 0; x < xw; x+= step) {
+          for (int y = 0; y < yh; y++) {
+            for (int px = 0; px < wt.SWidth; px++) {
+              Vector3Int pos = new Vector3Int(-x-1-px, 1 + y + x) + bl;
+              int py = y % wt.SHeight;
+              SetTile(pos, doorstm, Color.white, wt.SideTiles[px + wt.SWidth * py]);
+            }
+          }
+        }
+      }
+
+      // Roof
+      Tilemap[] rms = rindex == 0 ? roofstmEv : roofstmOd;
+      int rm = Height - 3;
+      if (rm < 0) rm = 0;
+      if (rm >= rms.Length) rm = rms.Length - 1;
+      Tilemap rtm = rms[rm];
+
+      for (int x = -1; x < Width; x++) {
+        for (int y = 0; y < depth; y++) {
+          if (x == -1) SetTile(bl + new Vector3Int(x - y, Height + y), rtm, colroof, y == depth - 1 ? Roof[1] : Roof[0]);
+          else if (x == Width - 1) SetTile(bl + new Vector3Int(x - y, Height + y), rtm, colroof, y == 0 ? Roof[3] : Roof[2]);
+          else if (y == 0) SetTile(bl + new Vector3Int(x - y, Height + y), rtm, colroof, Roof[4]);
+          else if (y == depth - 1) SetTile(bl + new Vector3Int(x - y, Height + y), rtm, colroof, Roof[6]);
+          else SetTile(bl + new Vector3Int(x - y, Height + y), rtm, colroof, Roof[5]);
+        }
       }
     }
   }
@@ -416,8 +420,6 @@ public class BuildingGenerator : MonoBehaviour {
     tm.SetTile(new Vector3Int(max, 1), roads[3]);
     tm.SetTile(new Vector3Int(max, 0), roads[10]);
   }
-
-
 
 
 
@@ -528,6 +530,9 @@ public class WindowType {
   public bool Strecheable;
   public int Width;
   public int Height;
+  public int SWidth;
+  public int SHeight;
   public List<TileBase> Tiles;
+  public List<TileBase> SideTiles;
 }
 

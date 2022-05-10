@@ -13,6 +13,13 @@ public class Road : MonoBehaviour {
   public List<TextMeshPro> RoadNameSigns;
   public List<Building> Buildings;
 
+  public string Hash;
+  public void GenerateRoad() {
+    // FIXME copy code from buildings
+    // Have some parameters if we have to fill one of the unique building items
+
+  }
+
 
   readonly string[] roadTypes = {
     "Lane", "Road", "Street", "Strasse", "Boulevard", "Avenue", "Drive", "Alley"
@@ -141,3 +148,21 @@ public enum BuildingType {
   College,                    // Only one in city
 
 }
+
+
+
+
+/*
+ 
+ City generation
+Number of horiz roads
+Number of vert roads
+Name of each road
+From city name and road name and position generate the random stats
+Place randomly the unique buildings
+Generate each road (do we need to actually generate it? Probably only if we show it)
+
+ 
+ 
+ 
+ */
