@@ -52,6 +52,7 @@ public class BuildingGenerator : MonoBehaviour {
   public List<WindowType> Windows;
   public List<TileBase> Roof;
   public List<TileBase> Roads;
+  public List<TileBase> Special; // 0-11 food stand
 
   readonly string[] buildingColors = {
     "#fa8d93ff", "#c5aa53ff", "#9d9f92ff", "#f58987ff", "#cda54eff", "#bd9357ff",
@@ -151,6 +152,9 @@ public class BuildingGenerator : MonoBehaviour {
     hc = Color.HSVToRGB(h < .5f ? h * h * h : (1 - h) * (1 - h) * (1 - h), s * .5f, v * .8f); // Make roofs more on the red
     hc.a = 255;
     RoofColor = hc;
+
+    BType = (BuildingType)((((int)(key >> 36) & 255) % 29) + 1);
+    BType = BuildingType.FoodStand;
   }
 
 
@@ -172,13 +176,33 @@ public class BuildingGenerator : MonoBehaviour {
     // Roads
     CalculateValuesFromHash(RandomHash + 0);
 
-    int min = SpaceBefore - 2;
-    int max = min + 3;
+    int min = SpaceBefore - 3;
+    int max = min + 6;
     for (int i = 0; i < num; i++) {
       CalculateValuesFromHash(RandomHash + i);
       max += SpaceBefore + Width;
     }
-    GenerateRoad(roadtm, min, max, Roads);
+    CleanRoad(roadtm, min, max, Roads[10]);
+
+    min = SpaceBefore - 3;
+    max = min + 6;
+    for (int i = 0; i < 5; i++) {
+      CalculateValuesFromHash(RandomHash + i);
+      max += SpaceBefore + Width;
+    }
+    GenerateRoad(roadtm, min, max);
+
+    min = max;
+    CalculateValuesFromHash(RandomHash + 5);
+    min += SpaceBefore + Width;
+    max = min + 6;
+    for (int i = 6; i < num; i++) {
+      CalculateValuesFromHash(RandomHash + i);
+      max += SpaceBefore + Width;
+    }
+    GenerateRoad(roadtm, min, max);
+
+
   }
 
   public void Generate(int rindex, int xoffset = 0) {
@@ -193,7 +217,20 @@ public class BuildingGenerator : MonoBehaviour {
     if (depth > Height) depth = Height;
     if (depth > 4) depth = 4;
 
-    bool drawWalls = (BType != BuildingType.Intersection) && (BType != BuildingType.SmallPark) &&
+
+    if (BType == BuildingType.Intersection) return; // Nothing to draw here
+
+    if (BType == BuildingType.FoodStand) {
+      GenerateFoodStand(bl, col);
+      return;
+    }
+
+    if (BType == BuildingType.SmallPark) {
+      GeneratePark(bl);
+      return;
+    }
+
+    bool drawWalls = (BType != BuildingType.SmallPark) &&
       (BType != BuildingType.Park) && (BType != BuildingType.Garden) && (BType != BuildingType.FoodTruck) &&
       (BType != BuildingType.Market) && (BType != BuildingType.Dumpster) && (BType != BuildingType.Grass);
 
@@ -390,38 +427,91 @@ public class BuildingGenerator : MonoBehaviour {
     }
   }
 
-  void GenerateRoad(Tilemap tm, int min, int max, List<TileBase> roads) {
-    // Clean everything
-    for (int y = 0; y < 7; y++)
-      for (int x = min - 16; x < max + 10; x++)
-        tm.SetTile(new Vector3Int(x, y), roads[10]);
-
-    tm.SetTile(new Vector3Int(min - 1, 0), roads[10]);
-    tm.SetTile(new Vector3Int(min - 1, 1), roads[0]);
-    for (int y = 2; y < 7; y++) {
-      tm.SetTile(new Vector3Int(min - y, y), roads[4]);
-      tm.SetTile(new Vector3Int(min - y + 1, y), roads[5]);
-      for (int x = 2; x < y; x++)
-        tm.SetTile(new Vector3Int(min - y + x, y), roads[8]);
-    }
-
-    for (int x = min; x < max; x++) {
-      tm.SetTile(new Vector3Int(x, 1), roads[1]);
-      for (int y = 2; y < 7; y++)
-        tm.SetTile(new Vector3Int(x, y), roads[8]);
-      tm.SetTile(new Vector3Int(x, 0), roads[10]);
-    }
-
-
-    for (int y = 2; y < 7; y++) {
-      tm.SetTile(new Vector3Int(max - y + 1, y), roads[7]);
-      for (int x = 2; x < 10; x++)
-        tm.SetTile(new Vector3Int(max - y + x, y), roads[10]);
-    }
-    tm.SetTile(new Vector3Int(max, 1), roads[3]);
-    tm.SetTile(new Vector3Int(max, 0), roads[10]);
+  void GeneratePark(Vector3Int bl) {
+    // Because this will be pretty much just roads we may want to post-generate it after the roads
   }
 
+  void GenerateFoodStand(Vector3Int bl, Color32 col) {
+    Color.RGBToHSV(col, out float h, out float s, out float v);
+    if (h > .5f) h = 1 - h;
+    h = .25f * h + .05f;
+    s *= 1.05f;
+    v *= 1.1f;
+    col = Color.HSVToRGB(h, s, v);
+
+    Width %= 3;
+    Width += 4;
+
+    SetTile(bl + new Vector3Int(0, 2), buildingtm, col, Special[0]);
+    SetTile(bl + new Vector3Int(0, 1), buildingtm, col, Special[4]);
+    SetTile(bl + new Vector3Int(0, 0), buildingtm, col, Special[7]);
+    for (int x = 1; x < Width; x++) {
+      SetTile(bl + new Vector3Int(x, 2), buildingtm, col, x < Width - 1 ? Special[1] : Special[2]);
+      SetTile(bl + new Vector3Int(x, 1), buildingtm, col, Special[4]);
+      SetTile(bl + new Vector3Int(x, 0), buildingtm, col, Special[4]);
+    }
+    SetTile(bl + new Vector3Int(Width, 2), buildingtm, col, Special[3]);
+
+    // Windows
+    int add = Width == 6 ? 1 : 0;
+    SetTile(bl + new Vector3Int(1 + add, 2), doorstm, col, Special[5]);
+    SetTile(bl + new Vector3Int(2 + add, 2), doorstm, col, Special[6]);
+    SetTile(bl + new Vector3Int(1 + add, 1), doorstm, col, Special[8]);
+    SetTile(bl + new Vector3Int(2 + add, 1), doorstm, col, Special[9]);
+    SetTile(bl + new Vector3Int(3 + add, 1), doorstm, col, Special[10]);
+    SetTile(bl + new Vector3Int(1 + add, 0), doorstm, col, Special[11]);
+    SetTile(bl + new Vector3Int(2 + add, 0), doorstm, col, Special[12]);
+    SetTile(bl + new Vector3Int(3 + add, 0), doorstm, col, Special[13]);
+  }
+
+  void CleanRoad(Tilemap tm, int min, int max, TileBase clean) {// Clean everything
+    for (int y = 0; y < 7; y++)
+      for (int x = min - 16; x < max + 10; x++)
+        tm.SetTile(new Vector3Int(x, y), null);
+  }
+
+  void GenerateRoad(Tilemap tm, int min, int max) {
+    const int inner = 4;
+    //FIXME    const int top = 10;
+    //FIXME    const int top2 = 9;
+    const int bottoml = 6;
+    const int bottom = 13;
+
+    //FIXME    const int leftt = 8;
+    const int leftm = 0;
+    const int leftm2 = 1;
+    const int leftb = 5;
+
+    //FIXME    const int rightt = 11;
+    const int rightm = 2;
+    const int rightm2 = 3;
+    const int rightb = 7;
+
+    TileBase t;
+    for (int x = min; x < max + 1; x++) {
+      for (int y = 0; y < 7; y++) {
+        if (x == min) {
+          if (y == 0) t = Roads[leftb];
+          else t = Roads[leftm];
+        }
+        else if (x == min + 1) {
+          if (y > 0) t = Roads[leftm2];
+          else t = Roads[bottoml];
+        }
+        else if (x == max) {
+          t = Roads[rightm2];
+        }
+        else if (x == max - 1) {
+          if (y > 0) t = Roads[rightm];
+          else t = Roads[rightb];
+        }
+        else if (y == 0) t = Roads[bottom];
+        else t = Roads[inner];
+
+        tm.SetTile(new Vector3Int(x - y, y), t);
+      }
+    }
+  }
 
 
   void SetTile(Vector3Int pos, Tilemap tm, Color color, TileBase tile) {

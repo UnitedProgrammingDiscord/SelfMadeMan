@@ -18,6 +18,17 @@ public class Road : MonoBehaviour {
     // FIXME copy code from buildings
     // Have some parameters if we have to fill one of the unique building items
 
+    // How many sections? (number of roads in the other axis - 1)
+    // Each section should be 3 to 6 buildings
+    // Place road names at each intersection (FIXME create prefab)
+    // Generate all buildings and keep track of the building properties (FIXME add type to the building)
+    // Add roads
+    // Add foreground
+    // Add background
+    // Place camera in start position (do some sort of transition?)
+
+
+
   }
 
 
@@ -106,46 +117,46 @@ public class Building {
 
 
 public enum BuildingType {
-  Intersection,               //  
-  SmallPark,                  //  
-  Park,                       //  
-  Garden,                     //  
-  Restaurant,                 //  
-  FoodStand,                  //  
-  FoodTruck,                  //  
-  Kitchen,                    //  
-  GasStation,                 //  
-  Bank,                       //  
-  FinancialServices,          //  
-  Store,                      // 
-  Pharmacy,                   // 
-  Boutique,                   // 
-  Tailor,                     // 
-  Gym,                        // 
-  PrimarySchool,              // 
-  Market,                     // 
-  SuperMarket,                // 
-  Butcher,                    // 
-  Bakery,                     // 
-  Bar,                        // 
-  Pub,                        // 
-  Motel,                      // 
-  Hotel,                      // 
-  Apartments,                 // 
-  RentableApartments,         // 
-  BarberShop,                 // 
-  Office,                     // 
-  Library,                    // 
+  Intersection          =  0, //  
+  SmallPark             =  1, //  
+  Park                  =  2, //  
+  Garden                =  3, //  
+  Restaurant            =  4, //  
+  FoodStand             =  5, //  
+  FoodTruck             =  6, //  
+  Kitchen               =  7, //  
+  GasStation            =  8, //  
+  Bank                  =  9, //  
+  FinancialServices     = 10, //  
+  Store                 = 11, // 
+  Pharmacy              = 12, // 
+  Boutique              = 13, // 
+  Tailor                = 14, // 
+  Gym                   = 15, // 
+  PrimarySchool         = 16, // 
+  Market                = 17, // 
+  SuperMarket           = 18, // 
+  Butcher               = 19, // 
+  Bakery                = 20, // 
+  Bar                   = 21, // 
+  Pub                   = 22, // 
+  Motel                 = 23, // 
+  Hotel                 = 24, // 
+  Apartments            = 25, // 
+  RentableApartments    = 26, // 
+  BarberShop            = 27, // 
+  Office                = 28, // 
+  Library               = 29, // 
 
-  Police,                     // Only one per road
-  MetroStation,               // Only one per road
-  Dumpster,                   // Only on borders
-  Grass,                      // Only on borders
-  RecyclingCenter,            // Only on borders
-  Jail,                       // Only one in city
-  SecondarySchool,            // Only one in city
-  HighSchool,                 // Only one in city
-  College,                    // Only one in city
+  Police                = 30, // Only one per road
+  MetroStation          = 31, // Only one per road
+  Dumpster              = 32, // Only on borders
+  Grass                 = 33, // Only on borders
+  RecyclingCenter       = 34, // Only on borders
+  Jail                  = 35, // Only one in city
+  SecondarySchool       = 36, // Only one in city
+  HighSchool            = 37, // Only one in city
+  College               = 38, // Only one in city
 
 }
 

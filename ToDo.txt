@@ -16,7 +16,7 @@ Character: draw beards, eyes, mouths, hair, glasses, belly
 
 Roads: Set limits to roads (min and max X position)
 Roads: name, cleaniness, criminality, expensiveness
-Roads: Define crossroads
+Roads: Define crossroads, have 5 or 6 buildings between each intersection. And use them to connect to the other roads. Have from 2 to 6 roads on eac direction.
 Roads: Generate full city based on a name. Define a few (squared) roads (horiz and vert) with names from a big list. Define intersections between roads
 Roads: Have inside the intro a way to define number of roads and name of each road in the UI
 
@@ -28,6 +28,10 @@ UI: [Stats] education, cleaniness, presentability
 
 Gameplay: Define all possible type of buildings and interactivity
 Gameplay: Define a way to interact with buildings
+
+
+FoodStand: place something on the background (trees or a small wood wall)
+
 
 Buildings: Add road names at intersections
 Buildings: Add signs to buildings (names, open hours, etc.)
@@ -74,6 +78,21 @@ Extra: Define minimap
 Extra: Add second layer of buildings in background? Or trees?
 Extra: Create intro, title screen, and game over
 
+Extra: transitions when changing roads
+
+
+!Anims: Idle Side
+!Anims: Idle Front
+!Anims: Idle Back
+Anims: Walk Side
+Anims: Walk Up
+Anims: Walk Down
+Anims: Pick Side
+Anims: Pick Up
+Anims: Pick Down
+Anims: Work ?
+Anims: Run side
+
 
 ********** Bugs *******************
 
@@ -98,6 +117,24 @@ The possible actions may depend on your knowledge, levels, and aspect
 The goal (end game) will be to reach a certain objective (random? Like owning a home? Or getting 1 million money?)
 Maybe some very simple dialogue system to interact with some NPCs.
 You can find or buy things like shoppers, bags, etc. that will allow you to carry more items
+
+
+
+Face
+Torso
+Legs
+Arms
+Eyes
+Beard
+Breast
+Mouth
+Hair
+Feet
+Clothes: glasses
+Clothes: Top
+Clothes: Pants/Skirt
+Clothes: Shoes
+r
 
 
 
