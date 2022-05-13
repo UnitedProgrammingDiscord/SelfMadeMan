@@ -8,11 +8,14 @@ public class Actor : MonoBehaviour {
   public Animator anim;
   public float Speed = 1;
   public SpritePart[] parts;
+  public int AllAt = 0;
 
   public void UpdateSprites() {
     foreach(var part in parts) {
       try {
-        part.resolver.SetCategoryAndLabel(part.Category, part.Category + part.part);
+        part.resS.SetCategoryAndLabel(part.Category, part.Category + part.part);
+        part.resF.SetCategoryAndLabel(part.Category, part.Category + part.part);
+        part.resB.SetCategoryAndLabel(part.Category, part.Category + part.part);
       } catch (System.Exception e) {
         Debug.LogException(e);
         Debug.Log(part.Category);
@@ -28,6 +31,12 @@ public class ActorEditor : Editor {
     if (GUILayout.Button("Update")) {
       (target as Actor).UpdateSprites();
     }
+    if (GUILayout.Button("Update with Val")) {
+      Actor a = target as Actor;
+      foreach (var part in a.parts)
+        part.part = a.AllAt;
+      a.UpdateSprites();
+    }
   }
 }
 
@@ -37,7 +46,9 @@ public enum Gender { Male, Female }
 [System.Serializable]
 public class SpritePart {
   public string Category;
-  public SpriteResolver resolver;
+  public SpriteResolver resS;
+  public SpriteResolver resF;
+  public SpriteResolver resB;
   public int part;
 }
 

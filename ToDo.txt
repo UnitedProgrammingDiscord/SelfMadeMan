@@ -84,11 +84,11 @@ Extra: transitions when changing roads
 
 !Anims: Idle Side
 !Anims: Walk Side
+!Anims: Idle Front
+!Anims: Walk Front
 
-Anims: Idle Front
 Anims: Idle Back
 Anims: Walk Up
-Anims: Walk Down
 Anims: Pick Side
 Anims: Pick Up
 Anims: Pick Down
@@ -152,4 +152,5 @@ Clothes: Shoes
 !New actor system
 !3 actor swatches
 !idle anim and walk anim (only on side)
+!idle anim and walk anim (front)
 
