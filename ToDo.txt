@@ -122,18 +122,9 @@ You can find or buy things like shoppers, bags, etc. that will allow you to carr
 
 
 
-Face
-Torso
-Legs
-Arms
-Eyes
-Beard
-Breast
-Mouth
-Hair
-Feet
+
 Clothes: glasses
-Clothes: Top
+Clothes: Separate body (arms, legs, etc) from clothes to allow different skins and better merging
 Clothes: Pants/Skirt
 Clothes: Shoes
 
