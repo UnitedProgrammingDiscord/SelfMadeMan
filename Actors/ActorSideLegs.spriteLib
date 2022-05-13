@@ -153,8 +153,8 @@ MonoBehaviour:
       m_Sprite: {fileID: -416813129, guid: 9996147ddeee1e8458cdb8aea5a4f002, type: 3}
       m_FromMain: 0
       m_SpriteOverride: {fileID: -416813129, guid: 9996147ddeee1e8458cdb8aea5a4f002, type: 3}
-    - m_Name: ActorSide2_23
-      m_Hash: -390921943
+    - m_Name: FootB2
+      m_Hash: 1233449872
       m_Sprite: {fileID: -416813129, guid: 728d2603f0a4ebd4393d1e46bec90185, type: 3}
       m_FromMain: 0
       m_SpriteOverride: {fileID: -416813129, guid: 728d2603f0a4ebd4393d1e46bec90185, type: 3}

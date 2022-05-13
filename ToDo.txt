@@ -4,7 +4,8 @@
 Gameplay: Inventory
 Gameplay: Add specific items (trashcans, bins)
 
-
+Character: define sets of swatches to handle types of clothes
+Character: define sets of swatches to handle skin color (if possible)
 Character: [anim] run
 Character: [anim] work
 Character: [anim] enter (vertical)
@@ -82,9 +83,10 @@ Extra: transitions when changing roads
 
 
 !Anims: Idle Side
-!Anims: Idle Front
-!Anims: Idle Back
-Anims: Walk Side
+!Anims: Walk Side
+
+Anims: Idle Front
+Anims: Idle Back
 Anims: Walk Up
 Anims: Walk Down
 Anims: Pick Side
@@ -134,7 +136,7 @@ Clothes: glasses
 Clothes: Top
 Clothes: Pants/Skirt
 Clothes: Shoes
-r
+
 
 
 
@@ -155,4 +157,8 @@ r
 !Created pickup anim
 !Improved colors of buildings
 !Buildings: Add windows on the side
+!New anim system
+!New actor system
+!3 actor swatches
+!idle anim and walk anim (only on side)
 
