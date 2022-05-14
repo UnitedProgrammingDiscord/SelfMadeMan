@@ -3,13 +3,14 @@ using UnityEngine;
 using UnityEngine.Rendering.Universal;
 
 public class Player : MonoBehaviour {
-  public Animator anim;
+  public Actor actor;
   public Transform cam;
   public BuildingGenerator building;
   public SpriteRenderer SkyDay, SkyNight;
   public Light2D GlobalLight;
   static Transform mt;
   public Inventory inventory;
+
 
   internal static Transform GetTransform() {
     return mt;
@@ -44,12 +45,12 @@ public class Player : MonoBehaviour {
         if (coll != null && coll.gameObject != null && coll.TryGetComponent(out Item item)) {
           // Can we pick the object (space in inventory)?
           movement = Vector3.zero;
-          anim.SetInteger("walk", 0);
+          actor.Play(Anim.Idle);
           if (inventory.InventoryFull()) {
             // Do some sound or show a message
             return;
           }
-          anim.Play("Pick");
+          actor.Play(Anim.Pick);
           pickingUp = true;
           inventory.AddItem(item);
           Destroy(item.gameObject, .5f);
@@ -83,13 +84,21 @@ public class Player : MonoBehaviour {
     pos.y = Mathf.Clamp(pos.y, -2.7f, -1.1f);
     transform.position = pos;
 
-    if (Mathf.Abs(movement.x) < .1f && Mathf.Abs(movement.y) < .025f) {
-      anim.SetInteger("walk", 0);
-      anim.speed = 1;
+    if (Mathf.Abs(movement.x) < .01f && Mathf.Abs(movement.y) < .015f) {
+      actor.Play(Anim.Idle);
+      actor.anim.speed = 1;
     }
     else {
-      anim.SetInteger("walk", 1);
-      anim.speed = Mathf.Clamp(movement.sqrMagnitude, 0.5f, 2.5f);
+      if (Mathf.Abs(movement.y) > Mathf.Abs(movement.x)) {
+        if (movement.y > 0) actor.SetDir(Dir.Up);
+        else actor.SetDir(Dir.Down);
+      }
+      else {
+        if (movement.x > 0) actor.SetDir(Dir.Right);
+        else actor.SetDir(Dir.Left);
+      }
+      actor.Play(Anim.Walk);
+      actor.anim.speed = Mathf.Clamp(movement.sqrMagnitude, 0.5f, 2.5f) * 1.25f;
       if (movement.x > 0) transform.localScale = MoveRight;
       else transform.localScale = MoveLeft;
     }

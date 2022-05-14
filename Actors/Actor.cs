@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEditor;
 using UnityEngine.U2D.Animation;
+using System;
 
 public class Actor : MonoBehaviour {
   public Dir dir;
@@ -11,7 +12,7 @@ public class Actor : MonoBehaviour {
   public int AllAt = 0;
 
   public void UpdateSprites() {
-    foreach(var part in parts) {
+    foreach (var part in parts) {
       try {
         part.resS.SetCategoryAndLabel(part.Category, part.Category + part.part);
         part.resF.SetCategoryAndLabel(part.Category, part.Category + part.part);
@@ -21,6 +22,40 @@ public class Actor : MonoBehaviour {
         Debug.Log(part.Category);
       }
     }
+  }
+
+  internal void Play(Anim what) {
+    switch (what) {
+      case Anim.Idle:
+        anim.SetInteger("walk", 0);
+        break;
+      case Anim.Walk:
+        anim.SetInteger("walk", 1);
+        break;
+      case Anim.Pick:
+        anim.SetInteger("walk", 0);
+        if (dir == Dir.Up) anim.Play("Pick Back");
+        else if (dir == Dir.Down) anim.Play("Pick Front");
+        else anim.Play("Pick Side");
+        break;
+    }
+  }
+
+  internal void SetDir(Dir newdir) {
+    if (dir == newdir) return;
+    switch (newdir) {
+      case Dir.Up:
+        if (dir != Dir.Up) anim.Play("Idle Back");
+        break;
+      case Dir.Down:
+        if (dir != Dir.Down) anim.Play("Idle Front");
+        break;
+      case Dir.Left:
+      case Dir.Right:
+        if (dir != Dir.Left && dir != Dir.Right) anim.Play("Idle Side");
+        break;
+    }
+    dir = newdir;
   }
 }
 
@@ -42,6 +77,7 @@ public class ActorEditor : Editor {
 
 public enum Dir { Left, Right, Up, Down }
 public enum Gender { Male, Female }
+public enum Anim { Idle, Walk, Pick }
 
 [System.Serializable]
 public class SpritePart {
