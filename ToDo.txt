@@ -1,4 +1,11 @@
 ﻿
+Change sprites to set Z order of parts. Use GIMP image to get the order
+Change Actor sprites/parts to allow direct clothes (remember glasses, before eyes but after hair)
+
+
+
+
+
 ---------------------- The to do ------------------------------------------------------------------
 
 Gameplay: Inventory
