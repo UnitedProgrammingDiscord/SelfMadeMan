@@ -12,8 +12,8 @@ public class Actor : MonoBehaviour {
   public float Speed = 1;
   public SpritePart[] partsBody;
   public SpritePart[] partsClothes;
-  public int AllAt = 0;
-  public int AllAtClothes = 0;
+  [HideInInspector]public int AllAt = 0;
+  [HideInInspector]public int AllAtClothes = 0;
   public Color32 SkinColor;
 
   public void UpdateSprites() {
@@ -81,17 +81,28 @@ public class Actor : MonoBehaviour {
 public class ActorEditor : Editor {
   public override void OnInspectorGUI() {
     DrawDefaultInspector();
+    Actor a = target as Actor;
+
+    GUILayout.BeginHorizontal();
+    GUILayout.Label("Body id");
+    int.TryParse(GUILayout.TextField(a.AllAt.ToString()), out a.AllAt);
+    GUILayout.Label("Clothes id");
+    int.TryParse(GUILayout.TextField(a.AllAtClothes.ToString()), out a.AllAtClothes);
+    GUILayout.EndHorizontal();
+
+    GUILayout.BeginHorizontal();
     if (GUILayout.Button("Update")) {
-      (target as Actor).UpdateSprites();
+      a.UpdateSprites();
     }
     if (GUILayout.Button("Update with Val")) {
-      Actor a = target as Actor;
+      
       foreach (var part in a.partsBody)
         part.part = a.AllAt;
       foreach (var part in a.partsClothes)
         part.part = a.AllAtClothes;
       a.UpdateSprites();
     }
+    GUILayout.EndHorizontal();
   }
 }
 
